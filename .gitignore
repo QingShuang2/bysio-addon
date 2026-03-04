@@ -1,0 +1,33 @@
+# Node
+node_modules/
+
+# Build outputs
+dist/
+
+# Editor directories
+.vscode/
+.idea/
+.vs/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+OfficeAddins.log.txt
+
+# Certificates / keys
+*.cer
+*.crt
+*.pfx
+*.key
+
+# Excel add-ins / generated binaries
+*.xlam
+*.xla
+
+# Environment
+.env
+
+# npm
+npm-debug.log*
