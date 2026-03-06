@@ -12,6 +12,8 @@ Private Const LEGACY_RESIZE_TAG As String = "BYSIO_RESIZE_70"
 Private Const RESIZE_PERCENT As Double = 70
 Private Const LEGACY_FORMAT_CAPTION As String = "Format Numbers"
 Private Const LEGACY_FORMAT_TAG As String = "BYSIO_FORMAT_NUMBERS"
+Private Const LEGACY_LINK_CAPTION As String = "Link Cells To Sheets"
+Private Const LEGACY_LINK_TAG As String = "BYSIO_LINK_CELLS"
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -79,6 +81,14 @@ Private Sub CreateLegacyCommandBarButton()
     button.Style = msoButtonIconAndCaption
     button.FaceId = 189
     button.OnAction = "RibbonFormatNumbers_LegacyOnAction"
+
+    ' Add Link Cells to Sheets legacy button
+    Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
+    button.Caption = LEGACY_LINK_CAPTION
+    button.Tag = LEGACY_LINK_TAG
+    button.Style = msoButtonIconAndCaption
+    button.FaceId = 541
+    button.OnAction = "RibbonLinkCells_LegacyOnAction"
 End Sub
 
 Private Sub RemoveLegacyCommandBarButton()
@@ -90,7 +100,7 @@ Private Sub RemoveLegacyCommandBarButton()
     If menuBar Is Nothing Then Exit Sub
 
     For Each ctrl In menuBar.Controls
-        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Or ctrl.Tag = LEGACY_RESIZE_TAG Or ctrl.Tag = LEGACY_FORMAT_TAG Then
+        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Or ctrl.Tag = LEGACY_RESIZE_TAG Or ctrl.Tag = LEGACY_FORMAT_TAG Or ctrl.Tag = LEGACY_LINK_TAG Then
             ctrl.Delete
         End If
     Next ctrl
@@ -110,6 +120,14 @@ End Sub
 
 Public Sub RibbonFormatNumbers_LegacyOnAction()
     FormatSelectedNumbers
+End Sub
+
+Public Sub RibbonLinkCells_OnAction(ByVal control As Object)
+    LinkCellsToSheets
+End Sub
+
+Public Sub RibbonLinkCells_LegacyOnAction()
+    LinkCellsToSheets
 End Sub
 
 Public Sub FormatSelectedNumbers()
@@ -146,6 +164,47 @@ Public Sub FormatSelectedNumbers()
             End If
         End If
     Next c
+End Sub
+
+Public Sub LinkCellsToSheets()
+    Dim sel As Range
+    Dim c As Range
+    Dim wb As Workbook
+    Dim targetIndex As Long
+    Dim i As Long
+    Dim shTarget As Worksheet
+
+    On Error Resume Next
+    Set sel = Selection
+    If sel Is Nothing Then
+        MsgBox "Please select one or more cells first.", vbInformation, APP_TITLE
+        Exit Sub
+    End If
+    On Error GoTo 0
+
+    Set wb = Application.ActiveWorkbook
+    If wb Is Nothing Then
+        MsgBox "No active workbook to operate on.", vbInformation, APP_TITLE
+        Exit Sub
+    End If
+
+    ' Map each row in the selection (top to bottom) to the worksheets after the active sheet
+    For i = 1 To sel.Rows.Count
+        targetIndex = ActiveSheet.Index + i
+        If targetIndex > wb.Worksheets.Count Then
+            MsgBox "Not enough sheets after the current sheet to link all selected cells.", vbExclamation, APP_TITLE
+            Exit For
+        End If
+
+        Set c = sel.Cells(i, 1) ' first column of the selection by row
+        Set shTarget = wb.Worksheets(targetIndex)
+
+        On Error Resume Next
+        c.Hyperlinks.Delete
+        On Error GoTo 0
+
+        wb.Sheets(ActiveSheet.Index).Hyperlinks.Add Anchor:=c, Address:="", SubAddress:="'" & shTarget.Name & "'!A1", TextToDisplay:=shTarget.Name
+    Next i
 End Sub
 
 Public Sub ResizeSelectedPicturesToPercent(pct As Double)

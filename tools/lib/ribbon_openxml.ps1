@@ -32,6 +32,13 @@ function Get-CustomUiXml {
                                                                         onAction="RibbonFormatNumbers_OnAction"
                                                                         screentip="Format selected numeric cells"
                                                                         supertip="Converts numeric-looking values to Number format; zeros get gray background, positives get red font." />
+                                        <button id="btnLinkCells"
+                                                                        label="Link Cells to Sheets"
+                                                                        imageMso="InsertHyperlink"
+                                                                        size="large"
+                                                                        onAction="RibbonLinkCells_OnAction"
+                                                                        screentip="Link selected cells to subsequent sheets"
+                                                                        supertip="For each row in the selected range (top-to-bottom), add a hyperlink to the next worksheet after the active sheet (first selected row -> first sheet after summary)." />
                                         <button id="btnZoom100"
                                                                         label="Zoom 100%"
                                                                         imageMso="ZoomTo100Percent"
