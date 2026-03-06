@@ -86,6 +86,17 @@ function Add-CustomRibbonToAddIn {
                   supertip="Prompts for two values and shows the AddNumbers result." />
         </group>
       </tab>
+            <tab idMso="TabHome">
+                <group id="grpMathLibHome" label="Bysio Math">
+                    <button id="btnAddNumbersHome"
+                                    label="Add Numbers"
+                                    imageMso="FunctionWizard"
+                                    size="large"
+                                    onAction="RibbonAddNumbers_OnAction"
+                                    screentip="Add two numbers"
+                                    supertip="Prompts for two values and shows the AddNumbers result." />
+                </group>
+            </tab>
     </tabs>
   </ribbon>
 </customUI>
