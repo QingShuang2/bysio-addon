@@ -64,14 +64,15 @@ function Add-CustomRibbonToAddIn {
     Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-    $customUiPartPath = 'customUI/customUI14.xml'
+    $customUiPartPath = 'customUI/customUI.xml'
+    $packageRelsPath = '_rels/.rels'
     $workbookRelsPath = 'xl/_rels/workbook.xml.rels'
     $contentTypesPath = '[Content_Types].xml'
     $ribbonRelationshipType = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
 
     $customUiXml = @'
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
   <ribbon>
     <tabs>
       <tab id="tabBysioTools" label="Bysio Tools">
@@ -94,11 +95,17 @@ function Add-CustomRibbonToAddIn {
     try {
         $zip = [System.IO.Compression.ZipArchive]::new($fileStream, [System.IO.Compression.ZipArchiveMode]::Update, $false)
         try {
+            # Remove newer customUI14 part if present so only one customUI part remains.
+            $customUi14Part = $zip.GetEntry('customUI/customUI14.xml')
+            if ($customUi14Part) {
+                $customUi14Part.Delete()
+            }
+
             Set-ZipEntryText -Zip $zip -EntryPath $customUiPartPath -Content $customUiXml
 
-            $relsText = Get-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath
+            $relsText = Get-ZipEntryText -Zip $zip -EntryPath $packageRelsPath
             if (-not $relsText) {
-                throw "Missing workbook relationships entry: $workbookRelsPath"
+                throw "Missing package relationships entry: $packageRelsPath"
             }
 
             [xml]$relsXml = $relsText
@@ -121,10 +128,25 @@ function Add-CustomRibbonToAddIn {
             $newRel = $relsXml.CreateElement('Relationship', $relsXml.DocumentElement.NamespaceURI)
             [void]$newRel.SetAttribute('Id', $newRibbonRelId)
             [void]$newRel.SetAttribute('Type', $ribbonRelationshipType)
-            [void]$newRel.SetAttribute('Target', '../customUI/customUI14.xml')
+            [void]$newRel.SetAttribute('Target', 'customUI/customUI.xml')
             [void]$relsXml.DocumentElement.AppendChild($newRel)
 
-            Set-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath -Content $relsXml.OuterXml
+            Set-ZipEntryText -Zip $zip -EntryPath $packageRelsPath -Content $relsXml.OuterXml
+
+            # Remove any stale workbook-level ribbon relationship that may have been added by older builds.
+            $wbRelsText = Get-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath
+            if ($wbRelsText) {
+                [xml]$wbRelsXml = $wbRelsText
+                $wbRelsNs = [System.Xml.XmlNamespaceManager]::new($wbRelsXml.NameTable)
+                $wbRelsNs.AddNamespace('r', $wbRelsXml.DocumentElement.NamespaceURI)
+                $staleRibbonRels = $wbRelsXml.SelectNodes("//r:Relationship[@Type='$ribbonRelationshipType']", $wbRelsNs)
+                if ($staleRibbonRels.Count -gt 0) {
+                    foreach ($rel in @($staleRibbonRels)) {
+                        [void]$rel.ParentNode.RemoveChild($rel)
+                    }
+                    Set-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath -Content $wbRelsXml.OuterXml
+                }
+            }
 
             $contentTypesText = Get-ZipEntryText -Zip $zip -EntryPath $contentTypesPath
             if (-not $contentTypesText) {
@@ -135,10 +157,15 @@ function Add-CustomRibbonToAddIn {
             $typesNs = [System.Xml.XmlNamespaceManager]::new($typesXml.NameTable)
             $typesNs.AddNamespace('ct', $typesXml.DocumentElement.NamespaceURI)
 
-            $existingOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/customUI/customUI14.xml']", $typesNs)
+            $legacyOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/customUI/customUI14.xml']", $typesNs)
+            if ($legacyOverride) {
+                [void]$legacyOverride.ParentNode.RemoveChild($legacyOverride)
+            }
+
+            $existingOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/customUI/customUI.xml']", $typesNs)
             if (-not $existingOverride) {
                 $override = $typesXml.CreateElement('Override', $typesXml.DocumentElement.NamespaceURI)
-                [void]$override.SetAttribute('PartName', '/customUI/customUI14.xml')
+                [void]$override.SetAttribute('PartName', '/customUI/customUI.xml')
                 [void]$override.SetAttribute('ContentType', 'application/vnd.ms-office.customUI+xml')
                 [void]$typesXml.DocumentElement.AppendChild($override)
             }
@@ -175,11 +202,22 @@ foreach ($f in Get-ChildItem -Path $vbaDir -Filter *.bas -ErrorAction SilentlyCo
     $wb.VBProject.VBComponents.Import($f.FullName)
 }
 
+# Ensure workbook is saved as an actual add-in.
+$wb.IsAddin = $true
+
 $addInPath = Join-Path $dist 'MyAddin.xlam'
 Write-Host "Saving add-in to: $addInPath"
 # xlOpenXMLAddIn = 55 (macro-enabled add-in)
 $xlOpenXMLAddIn = 55
-$wb.SaveAs($addInPath, $xlOpenXMLAddIn) | Out-Null
+try {
+    $wb.SaveAs($addInPath, $xlOpenXMLAddIn) | Out-Null
+}
+catch {
+    $fallbackPath = Join-Path $dist ("MyAddin-{0}.xlam" -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    Write-Host "Primary add-in file is locked. Saving to fallback path: $fallbackPath"
+    $addInPath = $fallbackPath
+    $wb.SaveAs($addInPath, $xlOpenXMLAddIn) | Out-Null
+}
 $wb.Close($false)
 
 Write-Host 'Embedding custom ribbon UI into add-in package...'
