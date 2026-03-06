@@ -4,6 +4,7 @@ Option Explicit
 Public Sub SetAllSheetsFont(ByVal fontName As String, ByVal fontSize As Double)
     Dim wb As Workbook
     Dim ws As Worksheet
+    Dim wsName As String
 
     If Application.Workbooks.Count = 0 Then
         MsgBox "No open workbooks.", vbExclamation
@@ -15,8 +16,15 @@ Public Sub SetAllSheetsFont(ByVal fontName As String, ByVal fontSize As Double)
     On Error GoTo ErrHandler
 
     For Each ws In wb.Worksheets
-        ws.Cells.Font.Name = fontName
-        ws.Cells.Font.Size = fontSize
+        wsName = ws.Name
+        If Len(wsName) > 0 Then
+            If Left(wsName, 1) = "_" Or Right(wsName, 1) = "_" Then
+                ' Skip worksheets whose name starts or ends with an underscore
+            Else
+                ws.Cells.Font.Name = fontName
+                ws.Cells.Font.Size = fontSize
+            End If
+        End If
     Next ws
 
     Application.ScreenUpdating = True
@@ -28,8 +36,13 @@ ErrHandler:
 End Sub
 
 Public Sub PromptAndApplyFont()
-    Const defaultName As String = "ＭＳ ゴシック"
     Const defaultSize As Double = 9
+    Dim defaultName As String
+
+    ' Build the Japanese font name with Unicode code points to avoid
+    ' encoding/misinterpretation when the .bas file is imported.
+    defaultName = ChrW(&HFF2D) & ChrW(&HFF33) & " " & _
+                  ChrW(&H30B4) & ChrW(&H30B7) & ChrW(&H30C3) & ChrW(&H30AF)
 
     SetAllSheetsFont defaultName, defaultSize
     MsgBox "Applied font '" & defaultName & "' size " & CStr(defaultSize) & " to all sheets in " & ActiveWorkbook.Name, vbInformation
