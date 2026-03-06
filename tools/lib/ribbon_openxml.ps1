@@ -1,13 +1,13 @@
 $RibbonSettings = @{
-    CustomUiPartPath          = 'customUI/customUI.xml'
-    LegacyCustomUiPartPath    = 'customUI/customUI14.xml'
-    PackageRelsPath           = '_rels/.rels'
-    WorkbookRelsPath          = 'xl/_rels/workbook.xml.rels'
-    ContentTypesPath          = '[Content_Types].xml'
-    RelationshipType          = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
-    CustomUiContentType       = 'application/vnd.ms-office.customUI+xml'
-    PackageRelationshipPath   = 'customUI/customUI.xml'
-    WorkbookRelationshipPath  = '../customUI/customUI.xml'
+    CustomUiPartPath         = 'customUI/customUI.xml'
+    LegacyCustomUiPartPath   = 'customUI/customUI14.xml'
+    PackageRelsPath          = '_rels/.rels'
+    WorkbookRelsPath         = 'xl/_rels/workbook.xml.rels'
+    ContentTypesPath         = '[Content_Types].xml'
+    RelationshipType         = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
+    CustomUiContentType      = 'application/vnd.ms-office.customUI+xml'
+    PackageRelationshipPath  = 'customUI/customUI.xml'
+    WorkbookRelationshipPath = '../customUI/customUI.xml'
 }
 
 function Get-CustomUiXml {
@@ -16,17 +16,17 @@ function Get-CustomUiXml {
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
   <ribbon>
     <tabs>
-      <tab id="tabBysioTools" label="Bysio Tools">
-        <group id="grpMathLib" label="Math Library">
-          <button id="btnAddNumbers"
-                  label="Add Numbers"
-                  imageMso="FunctionWizard"
-                  size="large"
-                  onAction="RibbonAddNumbers_OnAction"
-                  screentip="Add two numbers"
-                  supertip="Prompts for two values and shows the AddNumbers result." />
-        </group>
-      </tab>
+            <tab id="tabBysioTools" label="Bysio Tools">
+                <group id="grpFormatting" label="Formatting">
+                    <button id="btnApplyFont"
+                                    label="Apply Font"
+                                    imageMso="FontDialog"
+                                    size="large"
+                                    onAction="RibbonApplyFont_OnAction"
+                                    screentip="Apply font to all sheets"
+                                    supertip="Prompts for font name and size and applies them to all worksheets." />
+                </group>
+            </tab>
     </tabs>
   </ribbon>
 </customUI>

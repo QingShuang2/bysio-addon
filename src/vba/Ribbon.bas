@@ -2,8 +2,8 @@ Attribute VB_Name = "Ribbon"
 Option Explicit
 
 Private Const APP_TITLE As String = "Bysio Add-in"
-Private Const LEGACY_BUTTON_CAPTION As String = "Add Numbers"
-Private Const LEGACY_BUTTON_TAG As String = "BYSIO_ADD_NUMBERS"
+Private Const LEGACY_BUTTON_CAPTION As String = "Apply Font to All Sheets"
+Private Const LEGACY_BUTTON_TAG As String = "BYSIO_APPLY_FONT"
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -13,39 +13,12 @@ Public Sub Auto_Close()
     RemoveLegacyCommandBarButton
 End Sub
 
-Public Sub RibbonAddNumbers_OnAction(ByVal control As Object)
-    RunAddNumbersPrompt
+Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
+    PromptAndApplyFont
 End Sub
 
-Public Sub RibbonAddNumbers_LegacyOnAction()
-    RunAddNumbersPrompt
-End Sub
-
-Private Sub RunAddNumbersPrompt()
-    Dim firstInput As String
-    Dim secondInput As String
-    Dim a As Double
-    Dim b As Double
-    Dim resultValue As Double
-
-    firstInput = InputBox("Enter the first number:", APP_TITLE, "1")
-    If Len(firstInput) = 0 Then Exit Sub
-
-    If Not TryParseDouble(firstInput, a) Then
-        MsgBox "The first value is not a valid number.", vbExclamation + vbOKOnly, APP_TITLE
-        Exit Sub
-    End If
-
-    secondInput = InputBox("Enter the second number:", APP_TITLE, "2")
-    If Len(secondInput) = 0 Then Exit Sub
-
-    If Not TryParseDouble(secondInput, b) Then
-        MsgBox "The second value is not a valid number.", vbExclamation + vbOKOnly, APP_TITLE
-        Exit Sub
-    End If
-
-    resultValue = AddNumbers(a, b)
-    MsgBox "Result: " & Format$(resultValue, "0.############"), vbInformation + vbOKOnly, APP_TITLE
+Public Sub RibbonApplyFont_LegacyOnAction()
+    PromptAndApplyFont
 End Sub
 
 Private Sub CreateLegacyCommandBarButton()
@@ -64,7 +37,7 @@ Private Sub CreateLegacyCommandBarButton()
     button.Tag = LEGACY_BUTTON_TAG
     button.Style = msoButtonIconAndCaption
     button.FaceId = 19
-    button.OnAction = "RibbonAddNumbers_LegacyOnAction"
+    button.OnAction = "RibbonApplyFont_LegacyOnAction"
 End Sub
 
 Private Sub RemoveLegacyCommandBarButton()
@@ -82,12 +55,3 @@ Private Sub RemoveLegacyCommandBarButton()
     Next ctrl
 End Sub
 
-Private Function TryParseDouble(ByVal value As String, ByRef parsed As Double) As Boolean
-    On Error GoTo ParseFailed
-    parsed = CDbl(value)
-    TryParseDouble = True
-    Exit Function
-
-ParseFailed:
-    TryParseDouble = False
-End Function
