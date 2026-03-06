@@ -24,7 +24,14 @@ function Get-CustomUiXml {
                                     size="large"
                                     onAction="RibbonApplyFont_OnAction"
                                     screentip="Apply font to all sheets"
-                                    supertip="Prompts for font name and size and applies them to all worksheets." />
+                                    supertip="Applies the configured font to all worksheets (skips names starting/ending with _)." />
+                    <button id="btnZoom100"
+                                    label="Zoom 100%"
+                                    imageMso="ZoomTo100Percent"
+                                    size="large"
+                                    onAction="RibbonZoom100_OnAction"
+                                    screentip="Set view zoom to 100% for all sheets"
+                                    supertip="Sets the view zoom to 100% for all worksheets, skipping sheets whose name starts or ends with an underscore." />
                 </group>
             </tab>
     </tabs>

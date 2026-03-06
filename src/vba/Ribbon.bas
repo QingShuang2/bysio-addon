@@ -2,8 +2,10 @@ Attribute VB_Name = "Ribbon"
 Option Explicit
 
 Private Const APP_TITLE As String = "Bysio Add-in"
-Private Const LEGACY_BUTTON_CAPTION As String = "Apply Font to All Sheets"
-Private Const LEGACY_BUTTON_TAG As String = "BYSIO_APPLY_FONT"
+Private Const LEGACY_APPLY_FONT_CAPTION As String = "Apply Font to All Sheets"
+Private Const LEGACY_APPLY_FONT_TAG As String = "BYSIO_APPLY_FONT"
+Private Const LEGACY_ZOOM_CAPTION As String = "Zoom 100% All Sheets"
+Private Const LEGACY_ZOOM_TAG As String = "BYSIO_ZOOM_100"
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -21,6 +23,14 @@ Public Sub RibbonApplyFont_LegacyOnAction()
     PromptAndApplyFont
 End Sub
 
+Public Sub RibbonZoom100_OnAction(ByVal control As Object)
+    ZoomAllSheets100
+End Sub
+
+Public Sub RibbonZoom100_LegacyOnAction()
+    ZoomAllSheets100
+End Sub
+
 Private Sub CreateLegacyCommandBarButton()
     On Error Resume Next
     RemoveLegacyCommandBarButton
@@ -32,12 +42,21 @@ Private Sub CreateLegacyCommandBarButton()
     Set menuBar = Application.CommandBars("Worksheet Menu Bar")
     If menuBar Is Nothing Then Exit Sub
 
+    ' Add Apply Font legacy button
     Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
-    button.Caption = LEGACY_BUTTON_CAPTION
-    button.Tag = LEGACY_BUTTON_TAG
+    button.Caption = LEGACY_APPLY_FONT_CAPTION
+    button.Tag = LEGACY_APPLY_FONT_TAG
     button.Style = msoButtonIconAndCaption
     button.FaceId = 19
     button.OnAction = "RibbonApplyFont_LegacyOnAction"
+
+    ' Add Zoom 100% legacy button
+    Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
+    button.Caption = LEGACY_ZOOM_CAPTION
+    button.Tag = LEGACY_ZOOM_TAG
+    button.Style = msoButtonIconAndCaption
+    button.FaceId = 159
+    button.OnAction = "RibbonZoom100_LegacyOnAction"
 End Sub
 
 Private Sub RemoveLegacyCommandBarButton()
@@ -49,7 +68,7 @@ Private Sub RemoveLegacyCommandBarButton()
     If menuBar Is Nothing Then Exit Sub
 
     For Each ctrl In menuBar.Controls
-        If ctrl.Tag = LEGACY_BUTTON_TAG Then
+        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Then
             ctrl.Delete
         End If
     Next ctrl
