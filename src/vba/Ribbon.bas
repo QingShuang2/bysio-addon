@@ -6,6 +6,10 @@ Private Const LEGACY_APPLY_FONT_CAPTION As String = "Apply Font to All Sheets"
 Private Const LEGACY_APPLY_FONT_TAG As String = "BYSIO_APPLY_FONT"
 Private Const LEGACY_ZOOM_CAPTION As String = "Zoom 100% All Sheets"
 Private Const LEGACY_ZOOM_TAG As String = "BYSIO_ZOOM_100"
+Private Const LEGACY_RESIZE_CAPTION As String = "Resize Picture to 70%"
+Private Const LEGACY_RESIZE_TAG As String = "BYSIO_RESIZE_70"
+
+Private Const RESIZE_PERCENT As Double = 70
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -57,6 +61,14 @@ Private Sub CreateLegacyCommandBarButton()
     button.Style = msoButtonIconAndCaption
     button.FaceId = 159
     button.OnAction = "RibbonZoom100_LegacyOnAction"
+
+    ' Add Resize to 70% legacy button
+    Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
+    button.Caption = LEGACY_RESIZE_CAPTION
+    button.Tag = LEGACY_RESIZE_TAG
+    button.Style = msoButtonIconAndCaption
+    button.FaceId = 260
+    button.OnAction = "RibbonResizePicture_LegacyOnAction"
 End Sub
 
 Private Sub RemoveLegacyCommandBarButton()
@@ -68,9 +80,34 @@ Private Sub RemoveLegacyCommandBarButton()
     If menuBar Is Nothing Then Exit Sub
 
     For Each ctrl In menuBar.Controls
-        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Then
+        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Or ctrl.Tag = LEGACY_RESIZE_TAG Then
             ctrl.Delete
         End If
     Next ctrl
+End Sub
+
+Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
+    ResizeSelectedPicturesToPercent RESIZE_PERCENT
+End Sub
+
+Public Sub RibbonResizePicture_LegacyOnAction()
+    ResizeSelectedPicturesToPercent RESIZE_PERCENT
+End Sub
+
+Public Sub ResizeSelectedPicturesToPercent(pct As Double)
+    Dim sr As Object
+    Dim s As Shape
+    On Error Resume Next
+    Set sr = Selection.ShapeRange
+    If sr Is Nothing Then
+        MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
+        Exit Sub
+    End If
+    On Error GoTo 0
+    For Each s In sr
+        On Error Resume Next
+        s.LockAspectRatio = msoTrue
+        s.ScaleWidth pct / 100, msoTrue, msoScaleFromTopLeft
+    Next s
 End Sub
 

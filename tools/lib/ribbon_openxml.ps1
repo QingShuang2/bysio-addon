@@ -14,28 +14,35 @@ function Get-CustomUiXml {
     return @'
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
-  <ribbon>
-    <tabs>
-            <tab id="tabBysioTools" label="Bysio Tools">
-                <group id="grpFormatting" label="Formatting">
-                    <button id="btnApplyFont"
-                                    label="Apply Font"
-                                    imageMso="FontDialog"
-                                    size="large"
-                                    onAction="RibbonApplyFont_OnAction"
-                                    screentip="Apply font to all sheets"
-                                    supertip="Applies the configured font to all worksheets (skips names starting/ending with _)." />
-                    <button id="btnZoom100"
-                                    label="Zoom 100%"
-                                    imageMso="ZoomTo100Percent"
-                                    size="large"
-                                    onAction="RibbonZoom100_OnAction"
-                                    screentip="Set view zoom to 100% for all sheets"
-                                    supertip="Sets the view zoom to 100% for all worksheets, skipping sheets whose name starts or ends with an underscore." />
-                </group>
-            </tab>
-    </tabs>
-  </ribbon>
+    <ribbon>
+        <tabs>
+                        <tab id="tabBysioTools" label="Bysio Tools">
+                                <group id="grpFormatting" label="Formatting">
+                                        <button id="btnApplyFont"
+                                                                        label="Apply Font"
+                                                                        imageMso="FontDialog"
+                                                                        size="large"
+                                                                        onAction="RibbonApplyFont_OnAction"
+                                                                        screentip="Apply font to all sheets"
+                                                                        supertip="Applies the configured font to all worksheets (skips names starting/ending with _)." />
+                                        <button id="btnZoom100"
+                                                                        label="Zoom 100%"
+                                                                        imageMso="ZoomTo100Percent"
+                                                                        size="large"
+                                                                        onAction="RibbonZoom100_OnAction"
+                                                                        screentip="Set view zoom to 100% for all sheets"
+                                                                        supertip="Sets the view zoom to 100% for all worksheets, skipping sheets whose name starts or ends with an underscore." />
+                                        <button id="btnResizePicture"
+                                                                        label="Resize to 70%"
+                                                                        imageMso="FormatPicture"
+                                                                        size="large"
+                                                                        onAction="RibbonResizePicture_OnAction"
+                                                                        screentip="Resize selected pictures to 70%"
+                                                                        supertip="Resize selected picture(s) to 70% of their original size, preserving aspect ratio." />
+                                </group>
+                        </tab>
+        </tabs>
+    </ribbon>
 </customUI>
 '@
 }
