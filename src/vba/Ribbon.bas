@@ -10,6 +10,8 @@ Private Const LEGACY_RESIZE_CAPTION As String = "Resize Picture to 70%"
 Private Const LEGACY_RESIZE_TAG As String = "BYSIO_RESIZE_70"
 
 Private Const RESIZE_PERCENT As Double = 70
+Private Const LEGACY_FORMAT_CAPTION As String = "Format Numbers"
+Private Const LEGACY_FORMAT_TAG As String = "BYSIO_FORMAT_NUMBERS"
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -69,6 +71,14 @@ Private Sub CreateLegacyCommandBarButton()
     button.Style = msoButtonIconAndCaption
     button.FaceId = 260
     button.OnAction = "RibbonResizePicture_LegacyOnAction"
+
+    ' Add Format Numbers legacy button
+    Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
+    button.Caption = LEGACY_FORMAT_CAPTION
+    button.Tag = LEGACY_FORMAT_TAG
+    button.Style = msoButtonIconAndCaption
+    button.FaceId = 189
+    button.OnAction = "RibbonFormatNumbers_LegacyOnAction"
 End Sub
 
 Private Sub RemoveLegacyCommandBarButton()
@@ -80,7 +90,7 @@ Private Sub RemoveLegacyCommandBarButton()
     If menuBar Is Nothing Then Exit Sub
 
     For Each ctrl In menuBar.Controls
-        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Or ctrl.Tag = LEGACY_RESIZE_TAG Then
+        If ctrl.Tag = LEGACY_APPLY_FONT_TAG Or ctrl.Tag = LEGACY_ZOOM_TAG Or ctrl.Tag = LEGACY_RESIZE_TAG Or ctrl.Tag = LEGACY_FORMAT_TAG Then
             ctrl.Delete
         End If
     Next ctrl
@@ -92,6 +102,50 @@ End Sub
 
 Public Sub RibbonResizePicture_LegacyOnAction()
     ResizeAllPicturesToPercent RESIZE_PERCENT
+End Sub
+
+Public Sub RibbonFormatNumbers_OnAction(ByVal control As Object)
+    FormatSelectedNumbers
+End Sub
+
+Public Sub RibbonFormatNumbers_LegacyOnAction()
+    FormatSelectedNumbers
+End Sub
+
+Public Sub FormatSelectedNumbers()
+    Dim rng As Range
+    Dim c As Range
+
+    On Error Resume Next
+    Set rng = Selection
+    If rng Is Nothing Then
+        MsgBox "Please select one or more cells first.", vbInformation, APP_TITLE
+        Exit Sub
+    End If
+    On Error GoTo 0
+
+    For Each c In rng.Cells
+        If Not IsError(c.Value) And Len(Trim(CStr(c.Value))) > 0 Then
+            If IsNumeric(c.Value) Then
+                If Not c.HasFormula Then
+                    c.Value = CDbl(c.Value)
+                End If
+                c.NumberFormat = "General"
+
+                If c.Value = 0 Then
+                    c.Interior.Color = RGB(211, 211, 211)
+                    c.Font.Color = vbBlack
+                ElseIf c.Value > 0 Then
+                    c.Interior.Pattern = xlNone
+                    c.Font.Color = vbRed
+                Else
+                    ' Negative numbers: clear special formatting
+                    c.Interior.Pattern = xlNone
+                    c.Font.Color = vbBlack
+                End If
+            End If
+        End If
+    Next c
 End Sub
 
 Public Sub ResizeSelectedPicturesToPercent(pct As Double)

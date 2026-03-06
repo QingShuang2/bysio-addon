@@ -25,6 +25,13 @@ function Get-CustomUiXml {
                                                                         onAction="RibbonApplyFont_OnAction"
                                                                         screentip="Apply font to all sheets"
                                                                         supertip="Applies the configured font to all worksheets (skips names starting/ending with _)." />
+                                        <button id="btnFormatNumbers"
+                                                                        label="Format Numbers"
+                                                                        imageMso="NumberFormat"
+                                                                        size="large"
+                                                                        onAction="RibbonFormatNumbers_OnAction"
+                                                                        screentip="Format selected numeric cells"
+                                                                        supertip="Converts numeric-looking values to Number format; zeros get gray background, positives get red font." />
                                         <button id="btnZoom100"
                                                                         label="Zoom 100%"
                                                                         imageMso="ZoomTo100Percent"
