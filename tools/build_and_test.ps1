@@ -144,19 +144,32 @@ function Add-CustomRibbonToAddIn {
 
             Set-ZipEntryText -Zip $zip -EntryPath $packageRelsPath -Content $relsXml.OuterXml
 
-            # Remove any stale workbook-level ribbon relationship that may have been added by older builds.
+            # Also add relationship at workbook-level for compatibility with some Excel builds.
             $wbRelsText = Get-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath
             if ($wbRelsText) {
                 [xml]$wbRelsXml = $wbRelsText
                 $wbRelsNs = [System.Xml.XmlNamespaceManager]::new($wbRelsXml.NameTable)
                 $wbRelsNs.AddNamespace('r', $wbRelsXml.DocumentElement.NamespaceURI)
-                $staleRibbonRels = $wbRelsXml.SelectNodes("//r:Relationship[@Type='$ribbonRelationshipType']", $wbRelsNs)
-                if ($staleRibbonRels.Count -gt 0) {
-                    foreach ($rel in @($staleRibbonRels)) {
-                        [void]$rel.ParentNode.RemoveChild($rel)
-                    }
-                    Set-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath -Content $wbRelsXml.OuterXml
+
+                $wbRibbonRels = $wbRelsXml.SelectNodes("//r:Relationship[@Type='$ribbonRelationshipType']", $wbRelsNs)
+                foreach ($rel in @($wbRibbonRels)) {
+                    [void]$rel.ParentNode.RemoveChild($rel)
                 }
+
+                $existingWbIds = @($wbRelsXml.SelectNodes('//r:Relationship', $wbRelsNs) | ForEach-Object { $_.Id })
+                $newWbRibbonRelId = 'rIdRibbon'
+                $wbSuffix = 1
+                while ($existingWbIds -contains $newWbRibbonRelId) {
+                    $wbSuffix++
+                    $newWbRibbonRelId = "rIdRibbon$wbSuffix"
+                }
+
+                $newWbRel = $wbRelsXml.CreateElement('Relationship', $wbRelsXml.DocumentElement.NamespaceURI)
+                [void]$newWbRel.SetAttribute('Id', $newWbRibbonRelId)
+                [void]$newWbRel.SetAttribute('Type', $ribbonRelationshipType)
+                [void]$newWbRel.SetAttribute('Target', '../customUI/customUI.xml')
+                [void]$wbRelsXml.DocumentElement.AppendChild($newWbRel)
+                Set-ZipEntryText -Zip $zip -EntryPath $workbookRelsPath -Content $wbRelsXml.OuterXml
             }
 
             $contentTypesText = Get-ZipEntryText -Zip $zip -EntryPath $contentTypesPath

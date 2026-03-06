@@ -2,8 +2,8 @@ Attribute VB_Name = "Ribbon"
 Option Explicit
 
 Private Const APP_TITLE As String = "Bysio Add-in"
-Private Const LEGACY_POPUP_CAPTION As String = "Bysio Tools"
 Private Const LEGACY_BUTTON_CAPTION As String = "Add Numbers"
+Private Const LEGACY_BUTTON_TAG As String = "BYSIO_ADD_NUMBERS"
 
 Public Sub Auto_Open()
     CreateLegacyCommandBarButton
@@ -54,17 +54,14 @@ Private Sub CreateLegacyCommandBarButton()
     On Error GoTo 0
 
     Dim menuBar As CommandBar
-    Dim popup As CommandBarControl
     Dim button As CommandBarButton
 
     Set menuBar = Application.CommandBars("Worksheet Menu Bar")
     If menuBar Is Nothing Then Exit Sub
 
-    Set popup = menuBar.Controls.Add(Type:=msoControlPopup, Temporary:=True)
-    popup.Caption = LEGACY_POPUP_CAPTION
-
-    Set button = popup.Controls.Add(Type:=msoControlButton, Temporary:=True)
+    Set button = menuBar.Controls.Add(Type:=msoControlButton, Temporary:=True)
     button.Caption = LEGACY_BUTTON_CAPTION
+    button.Tag = LEGACY_BUTTON_TAG
     button.Style = msoButtonIconAndCaption
     button.FaceId = 19
     button.OnAction = "RibbonAddNumbers_LegacyOnAction"
@@ -79,9 +76,8 @@ Private Sub RemoveLegacyCommandBarButton()
     If menuBar Is Nothing Then Exit Sub
 
     For Each ctrl In menuBar.Controls
-        If ctrl.Caption = LEGACY_POPUP_CAPTION Then
+        If ctrl.Tag = LEGACY_BUTTON_TAG Then
             ctrl.Delete
-            Exit For
         End If
     Next ctrl
 End Sub
