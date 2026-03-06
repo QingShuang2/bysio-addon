@@ -31,7 +31,28 @@ function Save-WorkbookAsAddIn {
 
     $Workbook.IsAddin = $true
     $xlOpenXMLAddIn = 55
-    $addInPath = Join-Path $DistDirectory 'MyAddin.xlam'
+    # Determine build name from tools\.env (parent of this lib folder)
+    $defaultName = 'MyAddin'
+    try {
+        $envFile = Join-Path (Split-Path -Parent $PSScriptRoot) '.env'
+        if (Test-Path $envFile) {
+            $envLines = Get-Content -Path $envFile -ErrorAction SilentlyContinue
+            foreach ($line in $envLines) {
+                if ($line -match '^\s*build_name\s*=\s*(.+)') {
+                    $val = $matches[1].Trim()
+                    # Strip surrounding single or double quotes if present
+                    $val = $val.Trim([char[]]@("'", '"'))
+                    if ($val -ne '') { $defaultName = $val; break }
+                }
+            }
+        }
+    }
+    catch {
+        # ignore parse errors and use default
+    }
+
+    $addInFileName = $defaultName + '.xlam'
+    $addInPath = Join-Path $DistDirectory $addInFileName
     Write-Host "Saving add-in to: $addInPath"
 
     try {
@@ -39,7 +60,7 @@ function Save-WorkbookAsAddIn {
         return $addInPath
     }
     catch {
-        $fallbackPath = Join-Path $DistDirectory ("MyAddin-{0}.xlam" -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
+        $fallbackPath = Join-Path $DistDirectory ($defaultName + '-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.xlam')
         Write-Host "Primary add-in file is locked. Saving to fallback path: $fallbackPath"
         $Workbook.SaveAs($fallbackPath, $xlOpenXMLAddIn) | Out-Null
         return $fallbackPath
