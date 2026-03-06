@@ -6,3 +6,4 @@ argument-hint: The inputs this agent expects, e.g., "a task to implement" or "a 
 ---
 1. this project creates a excel addin.
 2. after each step, you can commit the code to local. push only when user told you to.
+3. when adding a new botton, make sure to add it to the ribbon and assign the correct function to it.
