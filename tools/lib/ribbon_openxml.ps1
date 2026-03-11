@@ -16,12 +16,13 @@ function Get-CustomUiXml {
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
                     <dropDown id="ddlRibbonFont"
-                              label="Test Input"
-                              getItemCount="RibbonFont_GetItemCount"
-                              getItemLabel="RibbonFont_GetItemLabel"
+                              label="Font"
                               getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
                               onAction="RibbonFont_OnAction"
-                              screentip="Select font for testing" />
+                              screentip="Select font for testing">
+                        <item id="font_msgothic" label="ＭＳ ゴシック" />
+                        <item id="font_meiryo" label="Meiryo UI" />
+                    </dropDown>
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
@@ -61,12 +62,13 @@ function Get-CustomUi14Xml {
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
                     <dropDown id="ddlRibbonFont"
-                              label="Test Input"
-                              getItemCount="RibbonFont_GetItemCount"
-                              getItemLabel="RibbonFont_GetItemLabel"
+                              label="Font"
                               getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
                               onAction="RibbonFont_OnAction"
-                              screentip="Select font for testing" />
+                              screentip="Select font for testing">
+                        <item id="font_msgothic" label="ＭＳ ゴシック" />
+                        <item id="font_meiryo" label="Meiryo UI" />
+                    </dropDown>
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"

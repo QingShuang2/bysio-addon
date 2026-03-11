@@ -9,21 +9,6 @@ Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
-Public Sub RibbonFont_GetItemCount(ByVal control As Object, ByRef returnedVal)
-    returnedVal = 2
-End Sub
-
-Public Sub RibbonFont_GetItemLabel(ByVal control As Object, ByVal index As Long, ByRef returnedVal)
-    Select Case index
-        Case 0
-            returnedVal = "ＭＳ ゴシック"
-        Case 1
-            returnedVal = "Meiryo UI"
-        Case Else
-            returnedVal = ""
-    End Select
-End Sub
-
 Public Sub RibbonFont_GetSelectedItemIndex(ByVal control As Object, ByRef returnedIndex)
     returnedIndex = mRibbonFontSelectedIndex
 End Sub
