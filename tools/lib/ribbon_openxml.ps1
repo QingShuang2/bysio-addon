@@ -29,10 +29,7 @@ function Get-CustomUiXml {
                         onAction="RibbonApplyFont_OnAction"
                         screentip="Apply a preset font to every worksheet" />
 
-                    <button id="btnFormatNumbers"
-                        label="Format Numbers"
-                        onAction="RibbonFormatNumbers_OnAction"
-                        screentip="Normalize numeric formatting for selected cells" />
+                    
 
                     
 
@@ -75,10 +72,7 @@ function Get-CustomUi14Xml {
                         onAction="RibbonApplyFont_OnAction"
                         screentip="Apply a preset font to every worksheet" />
 
-                    <button id="btnFormatNumbers"
-                        label="Format Numbers"
-                        onAction="RibbonFormatNumbers_OnAction"
-                        screentip="Normalize numeric formatting for selected cells" />
+                    
 
                     
 

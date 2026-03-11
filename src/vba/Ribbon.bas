@@ -50,8 +50,5 @@ Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
     ResizeAllPicturesToPercent RESIZE_PERCENT
 End Sub
 
-Public Sub RibbonFormatNumbers_OnAction(ByVal control As Object)
-    FormatSelectedNumbers
-End Sub
 
 
