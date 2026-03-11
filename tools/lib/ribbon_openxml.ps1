@@ -46,33 +46,36 @@ function Get-CustomUiXml {
 
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
-                        label="Zoom 100%"
+                        label="Apply Zoom"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100%" />
+                        screentip="Apply the zoom percent from the box" />
                     <checkBox id="chkZoomAllSheets"
                               label="All Sheets?"
                               getPressed="RibbonZoomAllSheets_GetPressed"
                               onAction="RibbonZoomAllSheets_OnAction"
                               screentip="Apply zoom changes to all sheets when checked" />
                     <box id="boxZoomBtns" boxStyle="horizontal">
-                        <button id="btnZoomUp"
-                            label="Zoom +"
-                            imageMso="ZoomIn"
-                            onAction="RibbonZoomUp_OnAction"
-                            screentip="Increase zoom by 10%" />
                         <button id="btnZoomDown"
-                            label="Zoom -"
                             imageMso="ZoomOut"
                             onAction="RibbonZoomDown_OnAction"
                             screentip="Decrease zoom by 10%" />
+                        <editBox id="txtZoomPercent"
+                             label="Zoom %"
+                             getText="RibbonZoomPercent_GetText"
+                             onChange="RibbonZoomPercent_OnChange"
+                             screentip="Enter zoom percent (10-400)" />
+                        <button id="btnZoomUp"
+                            imageMso="ZoomIn"
+                            onAction="RibbonZoomUp_OnAction"
+                            screentip="Increase zoom by 10%" />
                     </box>
                 </group>
 
                 <group id="grpResize" label="Picture">
                     <button id="btnResizePicture"
-                        label="Resize 100%"
+                        label="Apply Resize"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
@@ -93,6 +96,11 @@ function Get-CustomUiXml {
                             imageMso="ZoomOut"
                             onAction="RibbonResizeDown_OnAction"
                             screentip="Decrease picture size by 5%" />
+                            <editBox id="txtResizePercent"
+                                 label="Resize %"
+                                 getText="RibbonResizePercent_GetText"
+                                 onChange="RibbonResizePercent_OnChange"
+                                 screentip="Enter resize percent" />
                     </box>
                 </group>
                 </tab>
@@ -137,48 +145,58 @@ function Get-CustomUi14Xml {
                 </group>
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
-                        label="Zoom 100%"
+                        label="Apply Zoom"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100%" />
+                        screentip="Apply the zoom percent from the box" />
                     <checkBox id="chkZoomAllSheets"
                         label="All Sheets?"
                         getPressed="RibbonZoomAllSheets_GetPressed"
                         onAction="RibbonZoomAllSheets_OnAction"
                         screentip="Apply zoom changes to all sheets when checked" />
                     <box id="boxZoomBtns" boxStyle="horizontal">
-                        <button id="btnZoomUp"
-                            imageMso="ZoomIn"
-                            onAction="RibbonZoomUp_OnAction"
-                            screentip="Increase zoom by 10%" />
                         <button id="btnZoomDown"
                             imageMso="ZoomOut"
                             onAction="RibbonZoomDown_OnAction"
                             screentip="Decrease zoom by 10%" />
+                        <editBox id="txtZoomPercent"
+                             label="Zoom %"
+                             getText="RibbonZoomPercent_GetText"
+                             onChange="RibbonZoomPercent_OnChange"
+                             screentip="Enter zoom percent (10-400)" />
+                        <button id="btnZoomUp"
+                            imageMso="ZoomIn"
+                            onAction="RibbonZoomUp_OnAction"
+                            screentip="Increase zoom by 10%" />
                     </box>
                 </group>
                 <group id="grpResize" label="Picture">
                     <button id="btnResizePicture"
-                        label="Resize 100%"
+                        label="Apply Resize"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
-                        screentip="Resize pictures to configured percent" />
+                        screentip="Apply the resize percent from the box" />
                     <checkBox id="chkResizeAllSheets"
                         label="All Sheets?"
                         getPressed="RibbonResizeAllSheets_GetPressed"
                         onAction="RibbonResizeAllSheets_OnAction"
                         screentip="Apply resize changes to all sheets when checked" />
                     <box id="boxResizeBtns" boxStyle="horizontal">
-                        <button id="btnResizeUp"
-                            imageMso="ZoomIn"
-                            onAction="RibbonResizeUp_OnAction"
-                            screentip="Increase picture size by 5%" />
                         <button id="btnResizeDown"
                             imageMso="ZoomOut"
                             onAction="RibbonResizeDown_OnAction"
                             screentip="Decrease picture size by 5%" />
+                        <editBox id="txtResizePercent"
+                             label="Resize %"
+                             getText="RibbonResizePercent_GetText"
+                             onChange="RibbonResizePercent_OnChange"
+                             screentip="Enter resize percent" />
+                        <button id="btnResizeUp"
+                            imageMso="ZoomIn"
+                            onAction="RibbonResizeUp_OnAction"
+                            screentip="Increase picture size by 5%" />
                     </box>
                 </group>
                 </tab>

@@ -192,3 +192,66 @@ ErrHandler:
     Application.ScreenUpdating = True
     MsgBox "Error setting zoom: " & Err.Description, vbExclamation
 End Sub
+
+Public Sub ZoomAllSheetsTo(percent As Long)
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim wsName As String
+    Dim curSheet As Worksheet
+
+    If Application.Workbooks.Count = 0 Then
+        MsgBox "No open workbooks.", vbExclamation
+        Exit Sub
+    End If
+
+    Set wb = ActiveWorkbook
+    On Error Resume Next
+    Set curSheet = ActiveSheet
+    On Error GoTo ErrHandler
+
+    Application.ScreenUpdating = False
+
+    For Each ws In wb.Worksheets
+        wsName = ws.Name
+        If Len(wsName) > 0 Then
+            If Left(wsName, 1) = "_" Or Right(wsName, 1) = "_" Then
+                ' Skip worksheets starting/ending with underscore
+            Else
+                ws.Activate
+                On Error Resume Next
+                If percent < 10 Then percent = 10
+                If percent > 400 Then percent = 400
+                ActiveWindow.Zoom = percent
+                On Error GoTo ErrHandler
+            End If
+        End If
+    Next ws
+
+    If Not curSheet Is Nothing Then curSheet.Activate
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrHandler:
+    Application.ScreenUpdating = True
+    MsgBox "Error setting zoom: " & Err.Description, vbExclamation
+End Sub
+
+Public Sub ZoomActiveSheetTo(percent As Long)
+    If Application.Workbooks.Count = 0 Then
+        MsgBox "No open workbooks.", vbExclamation
+        Exit Sub
+    End If
+
+    On Error GoTo ErrHandler
+    Application.ScreenUpdating = False
+    If percent < 10 Then percent = 10
+    If percent > 400 Then percent = 400
+    On Error Resume Next
+    ActiveWindow.Zoom = percent
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrHandler:
+    Application.ScreenUpdating = True
+    MsgBox "Error setting zoom: " & Err.Description, vbExclamation
+End Sub
