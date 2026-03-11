@@ -1,4 +1,4 @@
-Attribute VB_Name = "SetAllSheetsFont"
+Attribute VB_Name = "modSetAllSheetsFont"
 Option Explicit
 
 Public Sub SetAllSheetsFont(ByVal fontName As String, ByVal fontSize As Double)
