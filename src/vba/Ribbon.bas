@@ -114,10 +114,12 @@ Public Sub RibbonZoomUp_OnAction(ByVal control As Object)
     End If
     On Error Resume Next
     mRibbonZoomPercent = ActiveWindow.Zoom
-    If Not mRibbonUI Is Nothing Then
-        mRibbonUI.Invalidate
-    End If
     On Error GoTo 0
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.InvalidateControl "txtZoomPercent"
+        On Error GoTo 0
+    End If
 End Sub
 
 Public Sub RibbonZoomDown_OnAction(ByVal control As Object)
@@ -128,10 +130,12 @@ Public Sub RibbonZoomDown_OnAction(ByVal control As Object)
     End If
     On Error Resume Next
     mRibbonZoomPercent = ActiveWindow.Zoom
-    If Not mRibbonUI Is Nothing Then
-        mRibbonUI.Invalidate
-    End If
     On Error GoTo 0
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.InvalidateControl "txtZoomPercent"
+        On Error GoTo 0
+    End If
 End Sub
 
 Public Sub RibbonZoomAllSheets_GetPressed(ByVal control As Object, ByRef returnedPressed)
@@ -165,9 +169,10 @@ Public Sub RibbonResizeUp_OnAction(ByVal control As Object)
     On Error Resume Next
     mRibbonResizePercent = mRibbonResizePercent + 5
     If mRibbonResizePercent < 1 Then mRibbonResizePercent = 1
+    On Error GoTo 0
     If Not mRibbonUI Is Nothing Then
         On Error Resume Next
-        mRibbonUI.Invalidate
+        mRibbonUI.InvalidateControl "txtResizePercent"
         On Error GoTo 0
     End If
     On Error GoTo 0
@@ -190,9 +195,10 @@ Public Sub RibbonResizeDown_OnAction(ByVal control As Object)
     On Error Resume Next
     mRibbonResizePercent = mRibbonResizePercent - 5
     If mRibbonResizePercent < 1 Then mRibbonResizePercent = 1
+    On Error GoTo 0
     If Not mRibbonUI Is Nothing Then
         On Error Resume Next
-        mRibbonUI.Invalidate
+        mRibbonUI.InvalidateControl "txtResizePercent"
         On Error GoTo 0
     End If
     On Error GoTo 0
