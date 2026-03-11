@@ -46,7 +46,7 @@ function Get-CustomUiXml {
 
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
-                        label="Zoom 100% All Sheets"
+                        label="Zoom 100%"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
@@ -103,7 +103,7 @@ function Get-CustomUi14Xml {
                 </group>
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
-                        label="Zoom 100% All Sheets"
+                        label="Zoom 100%"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
