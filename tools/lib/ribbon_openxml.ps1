@@ -142,20 +142,17 @@ function Get-CustomUi14Xml {
                         size="large"
                         onAction="RibbonZoom100_OnAction"
                         screentip="Set zoom to 100%" />
-
-                    <box id="boxZoomBtns" boxStyle="vertical">
-                        <checkBox id="chkZoomAllSheets"
-                            label="All Sheets?"
-                            getPressed="RibbonZoomAllSheets_GetPressed"
-                            onAction="RibbonZoomAllSheets_OnAction"
-                            screentip="Apply zoom changes to all sheets when checked" />
+                    <checkBox id="chkZoomAllSheets"
+                        label="All Sheets?"
+                        getPressed="RibbonZoomAllSheets_GetPressed"
+                        onAction="RibbonZoomAllSheets_OnAction"
+                        screentip="Apply zoom changes to all sheets when checked" />
+                    <box id="boxZoomBtns" boxStyle="horizontal">
                         <button id="btnZoomUp"
-                            label="Zoom +"
                             imageMso="ZoomIn"
                             onAction="RibbonZoomUp_OnAction"
                             screentip="Increase zoom by 10%" />
                         <button id="btnZoomDown"
-                            label="Zoom -"
                             imageMso="ZoomOut"
                             onAction="RibbonZoomDown_OnAction"
                             screentip="Decrease zoom by 10%" />
@@ -168,19 +165,17 @@ function Get-CustomUi14Xml {
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
                         screentip="Resize pictures to configured percent" />
-                    <box id="boxResizeBtns" boxStyle="vertical">
-                        <checkBox id="chkResizeAllSheets"
-                            label="All Sheets?"
-                            getPressed="RibbonResizeAllSheets_GetPressed"
-                            onAction="RibbonResizeAllSheets_OnAction"
-                            screentip="Apply resize changes to all sheets when checked" />
+                    <checkBox id="chkResizeAllSheets"
+                        label="All Sheets?"
+                        getPressed="RibbonResizeAllSheets_GetPressed"
+                        onAction="RibbonResizeAllSheets_OnAction"
+                        screentip="Apply resize changes to all sheets when checked" />
+                    <box id="boxResizeBtns" boxStyle="horizontal">
                         <button id="btnResizeUp"
-                            label="Resize +"
                             imageMso="ZoomIn"
                             onAction="RibbonResizeUp_OnAction"
                             screentip="Increase picture size by 5%" />
                         <button id="btnResizeDown"
-                            label="Resize -"
                             imageMso="ZoomOut"
                             onAction="RibbonResizeDown_OnAction"
                             screentip="Decrease picture size by 5%" />
