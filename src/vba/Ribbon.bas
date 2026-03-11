@@ -3,9 +3,11 @@ Option Explicit
 
 Private mRibbonUI As Object
 Private mRibbonFontSelectedIndex As Long
+Private mRibbonFontSize As Long
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
+    mRibbonFontSize = 11
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
@@ -45,10 +47,10 @@ Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
     Select Case mRibbonFontSelectedIndex
         Case 0
             fontName = "ＭＳ ゴシック"
-            fontSize = 9
+            fontSize = mRibbonFontSize
         Case 1
             fontName = "Meiryo UI"
-            fontSize = 9
+            fontSize = mRibbonFontSize
         Case Else
             PromptAndApplyFont
             Exit Sub
@@ -64,6 +66,21 @@ End Sub
 
 Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
     ResizeAllPicturesToPercent RESIZE_PERCENT
+End Sub
+
+
+Public Sub RibbonSize_GetText(ByVal control As Object, ByRef returnedText)
+    returnedText = CStr(mRibbonFontSize)
+End Sub
+
+Public Sub RibbonSize_OnChange(ByVal control As Object, ByVal text As String)
+    If Len(Trim$(text)) = 0 Then Exit Sub
+    If IsNumeric(text) Then
+        mRibbonFontSize = CLng(text)
+        Application.StatusBar = "Selected font size: " & CStr(mRibbonFontSize)
+    Else
+        MsgBox "Invalid font size: " & text, vbExclamation
+    End If
 End Sub
 
 

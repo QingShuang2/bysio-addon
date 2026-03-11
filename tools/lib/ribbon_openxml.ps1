@@ -23,6 +23,11 @@ function Get-CustomUiXml {
                         <item id="font_msgothic" label="ＭＳ ゴシック" />
                         <item id="font_meiryo" label="Meiryo UI" />
                     </dropDown>
+                    <editBox id="txtRibbonSize"
+                             label="Size"
+                             getText="RibbonSize_GetText"
+                             onChange="RibbonSize_OnChange"
+                             screentip="Font size (default 11)" />
                 </group>
 
                 <group id="grpApplyFont" label="Apply">
@@ -80,6 +85,11 @@ function Get-CustomUi14Xml {
                         <item id="font_msgothic" label="ＭＳ ゴシック" />
                         <item id="font_meiryo" label="Meiryo UI" />
                     </dropDown>
+                    <editBox id="txtRibbonSize"
+                             label="Size"
+                             getText="RibbonSize_GetText"
+                             onChange="RibbonSize_OnChange"
+                             screentip="Font size (default 11)" />
                 </group>
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
