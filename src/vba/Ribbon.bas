@@ -42,7 +42,4 @@ Public Sub RibbonFormatNumbers_OnAction(ByVal control As Object)
     FormatSelectedNumbers
 End Sub
 
-Public Sub RibbonLinkCells_OnAction(ByVal control As Object)
-    LinkCellsToSheets
-End Sub
 

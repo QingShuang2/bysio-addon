@@ -31,10 +31,7 @@ function Get-CustomUiXml {
                         onAction="RibbonFormatNumbers_OnAction"
                         screentip="Normalize numeric formatting for selected cells" />
 
-                    <button id="btnLinkCells"
-                        label="Link Cells To Sheets"
-                        onAction="RibbonLinkCells_OnAction"
-                        screentip="Create links between cells and worksheets" />
+                    
 
                     <button id="btnZoom100"
                         label="Zoom 100% All Sheets"
@@ -77,10 +74,7 @@ function Get-CustomUi14Xml {
                         onAction="RibbonFormatNumbers_OnAction"
                         screentip="Normalize numeric formatting for selected cells" />
 
-                    <button id="btnLinkCells"
-                        label="Link Cells To Sheets"
-                        onAction="RibbonLinkCells_OnAction"
-                        screentip="Create links between cells and worksheets" />
+                    
 
                     <button id="btnZoom100"
                         label="Zoom 100% All Sheets"
