@@ -71,12 +71,27 @@ function Get-CustomUiXml {
                 </group>
 
                 <group id="grpResize" label="Picture">
+                    <button id="btnResizeUp"
+                        label="Resize +"
+                        size="large"
+                        onAction="RibbonResizeUp_OnAction"
+                        screentip="Increase picture size by 10%" />
                     <button id="btnResizePicture"
-                        label="Resize Picture to 70%"
+                        label="Resize 70%"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
-                        screentip="Resize all pictures to configured percent" />
+                        screentip="Resize pictures to configured percent" />
+                    <button id="btnResizeDown"
+                        label="Resize -"
+                        size="large"
+                        onAction="RibbonResizeDown_OnAction"
+                        screentip="Decrease picture size by 10%" />
+                    <checkBox id="chkResizeAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonResizeAllSheets_GetPressed"
+                              onAction="RibbonResizeAllSheets_OnAction"
+                              screentip="Apply resize changes to all sheets when checked" />
                 </group>
                 </tab>
         </tabs>
@@ -144,12 +159,29 @@ function Get-CustomUi14Xml {
                               screentip="Apply zoom changes to all sheets when checked" />
                 </group>
                 <group id="grpResize" label="Picture">
+                    <button id="btnResizeUp"
+                        label="Resize +"
+                        imageMso="GrowFont"
+                        size="large"
+                        onAction="RibbonResizeUp_OnAction"
+                        screentip="Increase picture size by 10%" />
                     <button id="btnResizePicture"
-                        label="Resize Picture to 70%"
+                        label="Resize 70%"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
-                        screentip="Resize all pictures to configured percent" />
+                        screentip="Resize pictures to configured percent" />
+                    <button id="btnResizeDown"
+                        label="Resize -"
+                        imageMso="ShrinkFont"
+                        size="large"
+                        onAction="RibbonResizeDown_OnAction"
+                        screentip="Decrease picture size by 10%" />
+                    <checkBox id="chkResizeAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonResizeAllSheets_GetPressed"
+                              onAction="RibbonResizeAllSheets_OnAction"
+                              screentip="Apply resize changes to all sheets when checked" />
                 </group>
                 </tab>
         </tabs>

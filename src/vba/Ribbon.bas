@@ -6,12 +6,14 @@ Private mRibbonFontSelectedIndex As Long
 Private mRibbonFontSize As Long
 Private mRibbonApplyAllSheets As Boolean
 Private mRibbonZoomApplyAllSheets As Boolean
+Private mRibbonResizeApplyAllSheets As Boolean
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
     mRibbonFontSize = 11
     mRibbonApplyAllSheets = False
     mRibbonZoomApplyAllSheets = False
+    mRibbonResizeApplyAllSheets = False
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
@@ -80,7 +82,19 @@ Public Sub RibbonZoom100_OnAction(ByVal control As Object)
 End Sub
 
 Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
-    ResizeAllPicturesToPercent RESIZE_PERCENT
+    If mRibbonResizeApplyAllSheets Then
+        ResizeAllPicturesToPercent RESIZE_PERCENT
+    Else
+        On Error Resume Next
+        Dim sr As Object
+        Set sr = Selection.ShapeRange
+        On Error GoTo 0
+        If Not sr Is Nothing Then
+            ResizeSelectedPicturesToPercent RESIZE_PERCENT
+        Else
+            ResizeActiveSheetPicturesToPercent RESIZE_PERCENT
+        End If
+    End If
 End Sub
 
 Public Sub RibbonZoomUp_OnAction(ByVal control As Object)
@@ -111,6 +125,52 @@ Public Sub RibbonZoomAllSheets_OnAction(ByVal control As Object, ByVal pressed A
         On Error GoTo 0
     End If
     Application.StatusBar = "Zoom Apply to All Sheets: " & IIf(mRibbonZoomApplyAllSheets, "Yes", "No")
+End Sub
+
+Public Sub RibbonResizeUp_OnAction(ByVal control As Object)
+    If mRibbonResizeApplyAllSheets Then
+        ResizeAllPicturesBy 10
+    Else
+        On Error Resume Next
+        Dim sr As Object
+        Set sr = Selection.ShapeRange
+        On Error GoTo 0
+        If Not sr Is Nothing Then
+            ResizeSelectedPicturesBy 10
+        Else
+            ResizeActiveSheetPicturesBy 10
+        End If
+    End If
+End Sub
+
+Public Sub RibbonResizeDown_OnAction(ByVal control As Object)
+    If mRibbonResizeApplyAllSheets Then
+        ResizeAllPicturesBy -10
+    Else
+        On Error Resume Next
+        Dim sr As Object
+        Set sr = Selection.ShapeRange
+        On Error GoTo 0
+        If Not sr Is Nothing Then
+            ResizeSelectedPicturesBy -10
+        Else
+            ResizeActiveSheetPicturesBy -10
+        End If
+    End If
+End Sub
+
+Public Sub RibbonResizeAllSheets_GetPressed(ByVal control As Object, ByRef returnedPressed)
+    returnedPressed = mRibbonResizeApplyAllSheets
+End Sub
+
+Public Sub RibbonResizeAllSheets_OnAction(ByVal control As Object, ByVal pressed As Boolean)
+    mRibbonResizeApplyAllSheets = pressed
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.Invalidate
+        On Error GoTo 0
+    End If
+    Application.StatusBar = "Resize Apply to All Sheets: " & IIf(mRibbonResizeApplyAllSheets, "Yes", "No")
 End Sub
 
 
