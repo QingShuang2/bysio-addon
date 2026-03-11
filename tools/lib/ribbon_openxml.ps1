@@ -39,7 +39,6 @@ function Get-CustomUiXml {
                         label="Zoom 100% All Sheets"
                         imageMso="Zoom100"
                         size="large"
-                        startGroup="true"
                         onAction="RibbonZoom100_OnAction"
                         screentip="Set zoom to 100% on all worksheets" />
                 </group>
