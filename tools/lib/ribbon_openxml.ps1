@@ -13,22 +13,46 @@ function Get-CustomUiXml {
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
-            <tab id="tabBysioTools" label="Bysio Tools">
-                <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
-                    <button id="btnCustomRibbonTest"
-                        label="Ribbon Loaded"
+                <tab id="tabBysioTools" label="Bysio Tools">
+                <group id="grpFormatting" label="Formatting">
+                    <editBox id="txtRibbonTestInput"
+                         label="Test Input"
+                         getText="RibbonTestInput_GetText"
+                         onChange="RibbonTestInput_OnChange"
+                         size="regular"
+                         screentip="Temporary input for testing" />
+
+                    <button id="btnApplyFont"
+                        label="Apply Font to All Sheets"
                         imageMso="FontDialog"
-                        size="large"
-                        onAction="RibbonCustomTabTest_OnAction"
-                        screentip="Verify custom ribbon load"
-                        supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                        onAction="RibbonApplyFont_OnAction"
+                        screentip="Apply a preset font to every worksheet" />
+
+                    <button id="btnFormatNumbers"
+                        label="Format Numbers"
+                        imageMso="NumberFormatIncrease"
+                        onAction="RibbonFormatNumbers_OnAction"
+                        screentip="Normalize numeric formatting for selected cells" />
+
+                    <button id="btnLinkCells"
+                        label="Link Cells To Sheets"
+                        imageMso="HyperlinkInsert"
+                        onAction="RibbonLinkCells_OnAction"
+                        screentip="Create links between cells and worksheets" />
+
                     <button id="btnZoom100"
                         label="Zoom 100% All Sheets"
+                        imageMso="Zoom100"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets"
-                        supertip="Activates each worksheet and sets the window zoom to 100% for each sheet." />
+                        screentip="Set zoom to 100% on all worksheets" />
+
+                    <button id="btnResizePicture"
+                        label="Resize Picture to 70%"
+                        imageMso="PictureCrop"
+                        onAction="RibbonResizePicture_OnAction"
+                        screentip="Resize all pictures to configured percent" />
                 </group>
-            </tab>
+                </tab>
         </tabs>
     </ribbon>
 </customUI>
@@ -41,22 +65,46 @@ function Get-CustomUi14Xml {
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
-            <tab id="tabBysioTools" label="Bysio Tools">
-                <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
-                    <button id="btnCustomRibbonTest"
-                        label="Ribbon Loaded"
+                <tab id="tabBysioTools" label="Bysio Tools">
+                <group id="grpFormatting" label="Formatting">
+                    <editBox id="txtRibbonTestInput"
+                         label="Test Input"
+                         getText="RibbonTestInput_GetText"
+                         onChange="RibbonTestInput_OnChange"
+                         size="regular"
+                         screentip="Temporary input for testing" />
+
+                    <button id="btnApplyFont"
+                        label="Apply Font to All Sheets"
                         imageMso="FontDialog"
-                        size="large"
-                        onAction="RibbonCustomTabTest_OnAction"
-                        screentip="Verify custom ribbon load"
-                        supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                        onAction="RibbonApplyFont_OnAction"
+                        screentip="Apply a preset font to every worksheet" />
+
+                    <button id="btnFormatNumbers"
+                        label="Format Numbers"
+                        imageMso="NumberFormatIncrease"
+                        onAction="RibbonFormatNumbers_OnAction"
+                        screentip="Normalize numeric formatting for selected cells" />
+
+                    <button id="btnLinkCells"
+                        label="Link Cells To Sheets"
+                        imageMso="HyperlinkInsert"
+                        onAction="RibbonLinkCells_OnAction"
+                        screentip="Create links between cells and worksheets" />
+
                     <button id="btnZoom100"
                         label="Zoom 100% All Sheets"
+                        imageMso="Zoom100"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets"
-                        supertip="Activates each worksheet and sets the window zoom to 100% for each sheet." />
+                        screentip="Set zoom to 100% on all worksheets" />
+
+                    <button id="btnResizePicture"
+                        label="Resize Picture to 70%"
+                        imageMso="PictureCrop"
+                        onAction="RibbonResizePicture_OnAction"
+                        screentip="Resize all pictures to configured percent" />
                 </group>
-            </tab>
+                </tab>
         </tabs>
     </ribbon>
 </customUI>
