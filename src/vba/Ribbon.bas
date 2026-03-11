@@ -92,7 +92,7 @@ Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
         If Not sr Is Nothing Then
             ResizeSelectedPicturesToPercent RESIZE_PERCENT
         Else
-            ResizeActiveSheetPicturesToPercent RESIZE_PERCENT
+            MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
         End If
     End If
 End Sub
@@ -138,7 +138,7 @@ Public Sub RibbonResizeUp_OnAction(ByVal control As Object)
         If Not sr Is Nothing Then
             ResizeSelectedPicturesBy 10
         Else
-            ResizeActiveSheetPicturesBy 10
+            MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
         End If
     End If
 End Sub
@@ -154,7 +154,7 @@ Public Sub RibbonResizeDown_OnAction(ByVal control As Object)
         If Not sr Is Nothing Then
             ResizeSelectedPicturesBy -10
         Else
-            ResizeActiveSheetPicturesBy -10
+            MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
         End If
     End If
 End Sub
