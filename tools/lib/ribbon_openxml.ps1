@@ -77,7 +77,7 @@ function Get-CustomUiXml {
                         onAction="RibbonResizeUp_OnAction"
                         screentip="Increase picture size by 10%" />
                     <button id="btnResizePicture"
-                        label="Resize 70%"
+                        label="Resize 100%"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
@@ -162,10 +162,11 @@ function Get-CustomUi14Xml {
                     <button id="btnResizeUp"
                         label="Resize +"
                         size="large"
+                        imageMso="ZoomIn"
                         onAction="RibbonResizeUp_OnAction"
                         screentip="Increase picture size by 10%" />
                     <button id="btnResizePicture"
-                        label="Resize 70%"
+                        label="Resize 100%"
                         imageMso="PictureCrop"
                         size="large"
                         onAction="RibbonResizePicture_OnAction"
@@ -173,6 +174,7 @@ function Get-CustomUi14Xml {
                     <button id="btnResizeDown"
                         label="Resize -"
                         size="large"
+                        imageMso="ZoomOut"
                         onAction="RibbonResizeDown_OnAction"
                         screentip="Decrease picture size by 10%" />
                     <checkBox id="chkResizeAllSheets"
