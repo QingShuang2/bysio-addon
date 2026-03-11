@@ -26,8 +26,10 @@ function Get-CustomUiXml {
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
+                        imageMso="FontDialog"
+                        size="large"
                         onAction="RibbonApplyFont_OnAction"
-                        screentip="Apply a preset font to every worksheet" />
+                        screentip="Apply selected font and size to every worksheet" />
 
                     
 
@@ -40,6 +42,8 @@ function Get-CustomUiXml {
 
                     <button id="btnResizePicture"
                         label="Resize Picture to 70%"
+                        imageMso="PictureCrop"
+                        size="large"
                         onAction="RibbonResizePicture_OnAction"
                         screentip="Resize all pictures to configured percent" />
                 </group>
@@ -69,8 +73,10 @@ function Get-CustomUi14Xml {
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
+                        imageMso="FontDialog"
+                        size="large"
                         onAction="RibbonApplyFont_OnAction"
-                        screentip="Apply a preset font to every worksheet" />
+                        screentip="Apply selected font and size to every worksheet" />
 
                     
 
@@ -83,6 +89,8 @@ function Get-CustomUi14Xml {
 
                     <button id="btnResizePicture"
                         label="Resize Picture to 70%"
+                        imageMso="PictureCrop"
+                        size="large"
                         onAction="RibbonResizePicture_OnAction"
                         screentip="Resize all pictures to configured percent" />
                 </group>

@@ -39,7 +39,23 @@ Public Sub RibbonCustomTabTest_OnAction(ByVal control As Object)
 End Sub
 
 Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
-    PromptAndApplyFont
+    Dim fontName As String
+    Dim fontSize As Double
+
+    Select Case mRibbonFontSelectedIndex
+        Case 0
+            fontName = "ＭＳ ゴシック"
+            fontSize = 9
+        Case 1
+            fontName = "Meiryo UI"
+            fontSize = 9
+        Case Else
+            PromptAndApplyFont
+            Exit Sub
+    End Select
+
+    SetAllSheetsFont fontName, fontSize
+    MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to all sheets in " & ActiveWorkbook.Name, vbInformation
 End Sub
 
 Public Sub RibbonZoom100_OnAction(ByVal control As Object)
