@@ -23,31 +23,26 @@ function Get-CustomUiXml {
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
-                        imageMso="FontDialog"
                         onAction="RibbonApplyFont_OnAction"
                         screentip="Apply a preset font to every worksheet" />
 
                     <button id="btnFormatNumbers"
                         label="Format Numbers"
-                        imageMso="NumberFormatIncrease"
                         onAction="RibbonFormatNumbers_OnAction"
                         screentip="Normalize numeric formatting for selected cells" />
 
                     <button id="btnLinkCells"
                         label="Link Cells To Sheets"
-                        imageMso="HyperlinkInsert"
                         onAction="RibbonLinkCells_OnAction"
                         screentip="Create links between cells and worksheets" />
 
                     <button id="btnZoom100"
                         label="Zoom 100% All Sheets"
-                        imageMso="Zoom100"
                         onAction="RibbonZoom100_OnAction"
                         screentip="Set zoom to 100% on all worksheets" />
 
                     <button id="btnResizePicture"
                         label="Resize Picture to 70%"
-                        imageMso="PictureCrop"
                         onAction="RibbonResizePicture_OnAction"
                         screentip="Resize all pictures to configured percent" />
                 </group>
