@@ -15,11 +15,13 @@ function Get-CustomUiXml {
         <tabs>
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
-                    <editBox id="txtRibbonTestInput"
-                             label="Test Input"
-                             getText="RibbonTestInput_GetText"
-                             onChange="RibbonTestInput_OnChange"
-                             screentip="Temporary input for testing" />
+                    <dropDown id="ddlRibbonFont"
+                              label="Test Input"
+                              getItemCount="RibbonFont_GetItemCount"
+                              getItemLabel="RibbonFont_GetItemLabel"
+                              getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
+                              onAction="RibbonFont_OnAction"
+                              screentip="Select font for testing" />
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
@@ -58,11 +60,13 @@ function Get-CustomUi14Xml {
         <tabs>
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
-                    <editBox id="txtRibbonTestInput"
-                             label="Test Input"
-                             getText="RibbonTestInput_GetText"
-                             onChange="RibbonTestInput_OnChange"
-                             screentip="Temporary input for testing" />
+                    <dropDown id="ddlRibbonFont"
+                              label="Test Input"
+                              getItemCount="RibbonFont_GetItemCount"
+                              getItemLabel="RibbonFont_GetItemLabel"
+                              getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
+                              onAction="RibbonFont_OnAction"
+                              screentip="Select font for testing" />
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"

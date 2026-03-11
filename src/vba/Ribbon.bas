@@ -2,19 +2,46 @@ Attribute VB_Name = "Ribbon"
 Option Explicit
 
 Private mRibbonUI As Object
-Private mRibbonTestInputText As String
+Private mRibbonFontSelectedIndex As Long
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
-Public Sub RibbonTestInput_OnChange(ByVal control As Object, ByVal text As String)
-    mRibbonTestInputText = text
+Public Sub RibbonFont_GetItemCount(ByVal control As Object, ByRef returnedVal)
+    returnedVal = 2
 End Sub
 
-Public Sub RibbonTestInput_GetText(ByVal control As Object, ByRef returnedVal)
-    returnedVal = mRibbonTestInputText
+Public Sub RibbonFont_GetItemLabel(ByVal control As Object, ByVal index As Long, ByRef returnedVal)
+    Select Case index
+        Case 0
+            returnedVal = "ＭＳ ゴシック"
+        Case 1
+            returnedVal = "Meiryo UI"
+        Case Else
+            returnedVal = ""
+    End Select
+End Sub
+
+Public Sub RibbonFont_GetSelectedItemIndex(ByVal control As Object, ByRef returnedIndex)
+    returnedIndex = mRibbonFontSelectedIndex
+End Sub
+
+Public Sub RibbonFont_OnAction(ByVal control As Object, ByVal id As String, ByVal index As Long)
+    mRibbonFontSelectedIndex = index
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.Invalidate
+        On Error GoTo 0
+    End If
+    Dim fontName As String
+    Select Case index
+        Case 0: fontName = "ＭＳ ゴシック"
+        Case 1: fontName = "Meiryo UI"
+        Case Else: fontName = ""
+    End Select
+    Application.StatusBar = "Selected font: " & fontName
 End Sub
 
 Public Sub RibbonCustomTabTest_OnAction(ByVal control As Object)
