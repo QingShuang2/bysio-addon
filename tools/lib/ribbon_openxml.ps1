@@ -1,13 +1,10 @@
 $RibbonSettings = @{
-    CustomUiPartPath         = 'customUI/customUI.xml'
-    LegacyCustomUiPartPath   = 'customUI/customUI14.xml'
-    PackageRelsPath          = '_rels/.rels'
-    WorkbookRelsPath         = 'xl/_rels/workbook.xml.rels'
-    ContentTypesPath         = '[Content_Types].xml'
-    RelationshipType         = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
-    CustomUiContentType      = 'application/vnd.ms-office.customUI+xml'
-    PackageRelationshipPath  = 'customUI/customUI.xml'
-    WorkbookRelationshipPath = '../customUI/customUI.xml'
+    CustomUiPartPath           = 'customUI/customUI.xml'
+    CustomUi14PartPath         = 'customUI/customUI14.xml'
+    PackageRelsPath            = '_rels/.rels'
+    ContentTypesPath           = '[Content_Types].xml'
+    CustomUiRelationshipType   = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
+    CustomUi14RelationshipType = 'http://schemas.microsoft.com/office/2007/relationships/ui/extensibility'
 }
 
 function Get-CustomUiXml {
@@ -16,52 +13,40 @@ function Get-CustomUiXml {
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
     <ribbon>
         <tabs>
-                        <tab id="tabBysioTools" label="Bysio Tools">
-                                <group id="grpFormatting" label="Formatting">
-                        <editBox id="txtRibbonTestInput"
-                                        label="Test Input"
-                                        onChange="RibbonTestInput_OnChange"
-                                        getText="RibbonTestInput_GetText"
-                                        sizeString="WWWWWWWWWWWW"
-                                        screentip="Type test text"
-                                        supertip="Temporary ribbon input box used to verify that an input text control can be hosted in the custom ribbon." />
-                                        <button id="btnApplyFont"
-                                                                        label="Apply Font"
-                                                                        imageMso="FontDialog"
-                                                                        size="large"
-                                                                        onAction="RibbonApplyFont_OnAction"
-                                                                        screentip="Apply font to all sheets"
-                                                                        supertip="Applies the configured font to all worksheets (skips names starting/ending with _)." />
-                                        <button id="btnFormatNumbers"
-                                                                        label="Format Numbers"
-                                                                        imageMso="NumberFormat"
-                                                                        size="large"
-                                                                        onAction="RibbonFormatNumbers_OnAction"
-                                                                        screentip="Format selected numeric cells"
-                                                                        supertip="Converts numeric-looking values to Number format; zeros get gray background, positives get red font." />
-                                        <button id="btnLinkCells"
-                                                                        label="Link Cells to Sheets"
-                                                                        imageMso="InsertHyperlink"
-                                                                        size="large"
-                                                                        onAction="RibbonLinkCells_OnAction"
-                                                                        screentip="Link selected cells to subsequent sheets"
-                                                                        supertip="For each row in the selected range (top-to-bottom), add a hyperlink to the next worksheet after the active sheet (first selected row -> first sheet after summary)." />
-                                        <button id="btnZoom100"
-                                                                        label="Zoom 100%"
-                                                                        imageMso="ZoomTo100Percent"
-                                                                        size="large"
-                                                                        onAction="RibbonZoom100_OnAction"
-                                                                        screentip="Set view zoom to 100% for all sheets"
-                                                                        supertip="Sets the view zoom to 100% for all worksheets, skipping sheets whose name starts or ends with an underscore." />
-                                        <button id="btnResizePicture"
-                                                                        label="Resize to 70%"
-                                                                        imageMso="FormatPicture"
-                                                                        size="large"
-                                                                        onAction="RibbonResizePicture_OnAction"
-                                                                        screentip="Resize selected pictures to 70%"
-                                                                        supertip="Resize selected picture(s) to 70% of their original size, preserving aspect ratio." />
-                                </group>
-                        </tab>
+            <tab id="tabBysioTools" label="Bysio Tools">
+                <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
+                    <button id="btnCustomRibbonTest"
+                            label="Ribbon Loaded"
+                            imageMso="FontDialog"
+                            size="large"
+                            onAction="RibbonCustomTabTest_OnAction"
+                            screentip="Verify custom ribbon load"
+                            supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>
+'@
+}
+
+function Get-CustomUi14Xml {
+    return @'
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+    <ribbon>
+        <tabs>
+            <tab id="tabBysioTools" label="Bysio Tools">
+                <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
+                    <button id="btnCustomRibbonTest"
+                            label="Ribbon Loaded"
+                            imageMso="FontDialog"
+                            size="large"
+                            onAction="RibbonCustomTabTest_OnAction"
+                            screentip="Verify custom ribbon load"
+                            supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                </group>
+            </tab>
         </tabs>
     </ribbon>
 </customUI>
@@ -115,7 +100,7 @@ function Set-ZipEntryText {
     }
 }
 
-function Set-RibbonRelationship {
+function Set-PackageRelationship {
     param(
         [Parameter(Mandatory = $true)]
         [xml]$RelationshipsXml,
@@ -160,15 +145,9 @@ function Update-RibbonRelationships {
     }
 
     [xml]$packageRelsXml = $packageRelsText
-    Set-RibbonRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.RelationshipType -Target $RibbonSettings.PackageRelationshipPath
+    Set-PackageRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUiRelationshipType -Target $RibbonSettings.CustomUiPartPath
+    Set-PackageRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUi14RelationshipType -Target $RibbonSettings.CustomUi14PartPath
     Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.PackageRelsPath -Content $packageRelsXml.OuterXml
-
-    $workbookRelsText = Get-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.WorkbookRelsPath
-    if ($workbookRelsText) {
-        [xml]$workbookRelsXml = $workbookRelsText
-        Set-RibbonRelationship -RelationshipsXml $workbookRelsXml -RelationshipType $RibbonSettings.RelationshipType -Target $RibbonSettings.WorkbookRelationshipPath
-        Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.WorkbookRelsPath -Content $workbookRelsXml.OuterXml
-    }
 }
 
 function Update-ContentTypes {
@@ -186,17 +165,14 @@ function Update-ContentTypes {
     $typesNs = [System.Xml.XmlNamespaceManager]::new($typesXml.NameTable)
     $typesNs.AddNamespace('ct', $typesXml.DocumentElement.NamespaceURI)
 
-    $legacyOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/$($RibbonSettings.LegacyCustomUiPartPath)']", $typesNs)
-    if ($legacyOverride) {
-        [void]$legacyOverride.ParentNode.RemoveChild($legacyOverride)
+    $currentOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/$($RibbonSettings.CustomUiPartPath)']", $typesNs)
+    if ($currentOverride) {
+        [void]$currentOverride.ParentNode.RemoveChild($currentOverride)
     }
 
-    $currentOverride = $typesXml.SelectSingleNode("//ct:Override[@PartName='/$($RibbonSettings.CustomUiPartPath)']", $typesNs)
-    if (-not $currentOverride) {
-        $override = $typesXml.CreateElement('Override', $typesXml.DocumentElement.NamespaceURI)
-        [void]$override.SetAttribute('PartName', "/$($RibbonSettings.CustomUiPartPath)")
-        [void]$override.SetAttribute('ContentType', $RibbonSettings.CustomUiContentType)
-        [void]$typesXml.DocumentElement.AppendChild($override)
+    $currentOverride14 = $typesXml.SelectSingleNode("//ct:Override[@PartName='/$($RibbonSettings.CustomUi14PartPath)']", $typesNs)
+    if ($currentOverride14) {
+        [void]$currentOverride14.ParentNode.RemoveChild($currentOverride14)
     }
 
     Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.ContentTypesPath -Content $typesXml.OuterXml
@@ -215,12 +191,8 @@ function Add-CustomRibbonToAddIn {
     try {
         $zip = [System.IO.Compression.ZipArchive]::new($fileStream, [System.IO.Compression.ZipArchiveMode]::Update, $false)
         try {
-            $legacyPart = $zip.GetEntry($RibbonSettings.LegacyCustomUiPartPath)
-            if ($legacyPart) {
-                $legacyPart.Delete()
-            }
-
             Set-ZipEntryText -Zip $zip -EntryPath $RibbonSettings.CustomUiPartPath -Content (Get-CustomUiXml)
+            Set-ZipEntryText -Zip $zip -EntryPath $RibbonSettings.CustomUi14PartPath -Content (Get-CustomUi14Xml)
             Update-RibbonRelationships -Zip $zip
             Update-ContentTypes -Zip $zip
         }

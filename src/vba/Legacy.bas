@@ -2,11 +2,9 @@ Attribute VB_Name = "Legacy"
 Option Explicit
 
 Public Sub Auto_Open()
-    CreateLegacyCommandBarButton
 End Sub
 
 Public Sub Auto_Close()
-    RemoveLegacyCommandBarButton
 End Sub
 
 Private Sub CreateLegacyCommandBarButton()
