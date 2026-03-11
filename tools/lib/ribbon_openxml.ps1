@@ -10,18 +10,23 @@ $RibbonSettings = @{
 function Get-CustomUiXml {
     return @'
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
             <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
                     <button id="btnCustomRibbonTest"
-                            label="Ribbon Loaded"
-                            imageMso="FontDialog"
-                            size="large"
-                            onAction="RibbonCustomTabTest_OnAction"
-                            screentip="Verify custom ribbon load"
-                            supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                        label="Ribbon Loaded"
+                        imageMso="FontDialog"
+                        size="large"
+                        onAction="RibbonCustomTabTest_OnAction"
+                        screentip="Verify custom ribbon load"
+                        supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                    <button id="btnZoom100"
+                        label="Zoom 100% All Sheets"
+                        onAction="RibbonZoom100_OnAction"
+                        screentip="Set zoom to 100% on all worksheets"
+                        supertip="Activates each worksheet and sets the window zoom to 100% for each sheet." />
                 </group>
             </tab>
         </tabs>
@@ -33,18 +38,23 @@ function Get-CustomUiXml {
 function Get-CustomUi14Xml {
     return @'
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
             <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpCustomRibbonTest" label="Custom Ribbon Test">
                     <button id="btnCustomRibbonTest"
-                            label="Ribbon Loaded"
-                            imageMso="FontDialog"
-                            size="large"
-                            onAction="RibbonCustomTabTest_OnAction"
-                            screentip="Verify custom ribbon load"
-                            supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                        label="Ribbon Loaded"
+                        imageMso="FontDialog"
+                        size="large"
+                        onAction="RibbonCustomTabTest_OnAction"
+                        screentip="Verify custom ribbon load"
+                        supertip="Temporary button used to confirm that Excel is loading the embedded custom ribbon tab from the add-in." />
+                    <button id="btnZoom100"
+                        label="Zoom 100% All Sheets"
+                        onAction="RibbonZoom100_OnAction"
+                        screentip="Set zoom to 100% on all worksheets"
+                        supertip="Activates each worksheet and sets the window zoom to 100% for each sheet." />
                 </group>
             </tab>
         </tabs>
