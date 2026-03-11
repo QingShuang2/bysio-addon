@@ -65,21 +65,13 @@ function Get-CustomUi14Xml {
     <ribbon>
         <tabs>
                 <tab id="tabBysioTools" label="Bysio">
-                <group id="grpFormatting" label="Formatting">
+                <group id="grpFont" label="Font">
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
                         imageMso="FontDialog"
                         size="large"
                         onAction="RibbonApplyFont_OnAction"
                         screentip="Apply selected font and size to every worksheet" />
-
-                    <button id="btnZoom100"
-                        label="Zoom 100% All Sheets"
-                        imageMso="Zoom100"
-                        size="large"
-                        onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets" />
-
                     <dropDown id="ddlRibbonFont"
                               label="Font"
                               getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
@@ -88,7 +80,16 @@ function Get-CustomUi14Xml {
                         <item id="font_msgothic" label="ＭＳ ゴシック" />
                         <item id="font_meiryo" label="Meiryo UI" />
                     </dropDown>
-
+                </group>
+                <group id="grpZoom" label="Zoom">
+                    <button id="btnZoom100"
+                        label="Zoom 100% All Sheets"
+                        imageMso="Zoom100"
+                        size="large"
+                        onAction="RibbonZoom100_OnAction"
+                        screentip="Set zoom to 100% on all worksheets" />
+                </group>
+                <group id="grpResize" label="Picture">
                     <button id="btnResizePicture"
                         label="Resize Picture to 70%"
                         imageMso="PictureCrop"
