@@ -37,11 +37,11 @@ function Get-CustomUiXml {
 
                 <group id="grpApplyFont" label="Apply">
                     <button id="btnApplyFont"
-                        label="Apply Font to Sheet"
+                        label="Apply Font And Size"
                         imageMso="FontDialog"
                         size="large"
                         onAction="RibbonApplyFont_OnAction"
-                        screentip="Apply selected font to the active sheet" />
+                        screentip="Apply selected font and size to the active sheet" />
                 </group>
 
                 <group id="grpZoom" label="Zoom">
@@ -77,7 +77,7 @@ function Get-CustomUi14Xml {
                 <tab id="tabBysioTools" label="Bysio">
                 <group id="grpFont" label="Font">
                     <button id="btnApplyFont"
-                        label="Apply Font to All Sheets"
+                        label="Apply Font And Size"
                         imageMso="FontDialog"
                         size="large"
                         onAction="RibbonApplyFont_OnAction"
