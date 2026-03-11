@@ -92,7 +92,7 @@ Public Sub ResizeSelectedPicturesBy(delta As Long)
     For Each s In sr
         On Error Resume Next
         s.LockAspectRatio = msoTrue
-        s.ScaleWidth factor, msoTrue, msoScaleFromTopLeft
+        s.ScaleWidth factor, msoFalse, msoScaleFromTopLeft
     Next s
 End Sub
 
@@ -116,7 +116,7 @@ Public Sub ResizeActiveSheetPicturesBy(delta As Long)
         Select Case s.Type
             Case msoPicture, msoLinkedPicture
                 s.LockAspectRatio = msoTrue
-                s.ScaleWidth factor, msoTrue, msoScaleFromTopLeft
+                s.ScaleWidth factor, msoFalse, msoScaleFromTopLeft
                 resizedCount = resizedCount + 1
         End Select
         On Error GoTo 0
@@ -147,7 +147,7 @@ Public Sub ResizeAllPicturesBy(delta As Long)
             Select Case s.Type
                 Case msoPicture, msoLinkedPicture
                     s.LockAspectRatio = msoTrue
-                    s.ScaleWidth factor, msoTrue, msoScaleFromTopLeft
+                    s.ScaleWidth factor, msoFalse, msoScaleFromTopLeft
                     resizedCount = resizedCount + 1
             End Select
             On Error GoTo 0

@@ -129,14 +129,14 @@ End Sub
 
 Public Sub RibbonResizeUp_OnAction(ByVal control As Object)
     If mRibbonResizeApplyAllSheets Then
-        ResizeAllPicturesBy 10
+        ResizeAllPicturesBy 5
     Else
         On Error Resume Next
         Dim sr As Object
         Set sr = Selection.ShapeRange
         On Error GoTo 0
         If Not sr Is Nothing Then
-            ResizeSelectedPicturesBy 10
+            ResizeSelectedPicturesBy 5
         Else
             MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
         End If
@@ -145,14 +145,14 @@ End Sub
 
 Public Sub RibbonResizeDown_OnAction(ByVal control As Object)
     If mRibbonResizeApplyAllSheets Then
-        ResizeAllPicturesBy -10
+        ResizeAllPicturesBy -5
     Else
         On Error Resume Next
         Dim sr As Object
         Set sr = Selection.ShapeRange
         On Error GoTo 0
         If Not sr Is Nothing Then
-            ResizeSelectedPicturesBy -10
+            ResizeSelectedPicturesBy -5
         Else
             MsgBox "Please select a picture or shape first.", vbInformation, APP_TITLE
         End If

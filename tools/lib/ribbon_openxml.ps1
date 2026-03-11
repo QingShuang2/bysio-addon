@@ -87,12 +87,12 @@ function Get-CustomUiXml {
                             label="Resize +"
                             imageMso="ZoomIn"
                             onAction="RibbonResizeUp_OnAction"
-                            screentip="Increase picture size by 10%" />
+                            screentip="Increase picture size by 5%" />
                         <button id="btnResizeDown"
                             label="Resize -"
                             imageMso="ZoomOut"
                             onAction="RibbonResizeDown_OnAction"
-                            screentip="Decrease picture size by 10%" />
+                            screentip="Decrease picture size by 5%" />
                     </box>
                 </group>
                 </tab>
@@ -178,12 +178,12 @@ function Get-CustomUi14Xml {
                             label="Resize +"
                             imageMso="ZoomIn"
                             onAction="RibbonResizeUp_OnAction"
-                            screentip="Increase picture size by 10%" />
+                            screentip="Increase picture size by 5%" />
                         <button id="btnResizeDown"
                             label="Resize -"
                             imageMso="ZoomOut"
                             onAction="RibbonResizeDown_OnAction"
-                            screentip="Decrease picture size by 10%" />
+                            screentip="Decrease picture size by 5%" />
                     </box>
                 </group>
                 </tab>
