@@ -13,7 +13,7 @@ function Get-CustomUiXml {
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
-                <tab id="tabBysioTools" label="Bysio Tools">
+                <tab id="tabBysioTools" label="Bysio">
                 <group id="grpFontPicker" label="Font">
                     <dropDown id="ddlRibbonFont"
                               label="Font"
@@ -64,7 +64,7 @@ function Get-CustomUi14Xml {
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="RibbonOnLoad">
     <ribbon>
         <tabs>
-                <tab id="tabBysioTools" label="Bysio Tools">
+                <tab id="tabBysioTools" label="Bysio">
                 <group id="grpFormatting" label="Formatting">
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
