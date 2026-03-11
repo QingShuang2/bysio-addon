@@ -54,8 +54,8 @@ Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
             Exit Sub
     End Select
 
-    SetAllSheetsFont fontName, fontSize
-    MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to all sheets in " & ActiveWorkbook.Name, vbInformation
+    SetActiveSheetFont fontName, fontSize
+    MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to active sheet '" & ActiveSheet.Name & "' in " & ActiveWorkbook.Name, vbInformation
 End Sub
 
 Public Sub RibbonZoom100_OnAction(ByVal control As Object)

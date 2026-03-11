@@ -48,6 +48,32 @@ Public Sub PromptAndApplyFont()
     MsgBox "Applied font '" & defaultName & "' size " & CStr(defaultSize) & " to all sheets in " & ActiveWorkbook.Name, vbInformation
 End Sub
 
+Public Sub SetActiveSheetFont(ByVal fontName As String, ByVal fontSize As Double)
+    Dim ws As Worksheet
+
+    If Application.Workbooks.Count = 0 Then
+        MsgBox "No open workbooks.", vbExclamation
+        Exit Sub
+    End If
+
+    On Error GoTo ErrHandler
+    Set ws = ActiveSheet
+    If ws Is Nothing Then
+        MsgBox "No active sheet.", vbExclamation
+        Exit Sub
+    End If
+
+    ws.Cells.Font.Name = fontName
+    ws.Cells.Font.Size = fontSize
+
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrHandler:
+    Application.ScreenUpdating = True
+    MsgBox "Error applying font to active sheet: " & Err.Description, vbExclamation
+End Sub
+
 Public Function AddNumbers(a As Double, b As Double) As Double
     AddNumbers = a + b
 End Function

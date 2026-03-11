@@ -14,21 +14,7 @@ function Get-CustomUiXml {
     <ribbon>
         <tabs>
                 <tab id="tabBysioTools" label="Bysio Tools">
-                <group id="grpFormatting" label="Formatting">
-                    <button id="btnApplyFont"
-                        label="Apply Font to All Sheets"
-                        imageMso="FontDialog"
-                        size="large"
-                        onAction="RibbonApplyFont_OnAction"
-                        screentip="Apply selected font and size to every worksheet" />
-
-                    <button id="btnZoom100"
-                        label="Zoom 100% All Sheets"
-                        imageMso="Zoom100"
-                        size="large"
-                        onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets" />
-
+                <group id="grpFont" label="Font">
                     <dropDown id="ddlRibbonFont"
                               label="Font"
                               getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
@@ -38,6 +24,24 @@ function Get-CustomUiXml {
                         <item id="font_meiryo" label="Meiryo UI" />
                     </dropDown>
 
+                    <button id="btnApplyFont"
+                        label="Apply Font to Sheet"
+                        imageMso="FontDialog"
+                        size="large"
+                        onAction="RibbonApplyFont_OnAction"
+                        screentip="Apply selected font to the active sheet" />
+                </group>
+
+                <group id="grpZoom" label="Zoom">
+                    <button id="btnZoom100"
+                        label="Zoom 100% All Sheets"
+                        imageMso="Zoom100"
+                        size="large"
+                        onAction="RibbonZoom100_OnAction"
+                        screentip="Set zoom to 100% on all worksheets" />
+                </group>
+
+                <group id="grpResize" label="Picture">
                     <button id="btnResizePicture"
                         label="Resize Picture to 70%"
                         imageMso="PictureCrop"
