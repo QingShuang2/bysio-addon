@@ -118,3 +118,77 @@ ErrHandler:
     Application.ScreenUpdating = True
     MsgBox "Error setting zoom: " & Err.Description, vbExclamation
 End Sub
+
+Public Sub ZoomAllSheetsBy(delta As Long)
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim wsName As String
+    Dim curSheet As Worksheet
+    Dim curZoom As Long
+    Dim newZoom As Long
+
+    If Application.Workbooks.Count = 0 Then
+        MsgBox "No open workbooks.", vbExclamation
+        Exit Sub
+    End If
+
+    Set wb = ActiveWorkbook
+    On Error Resume Next
+    Set curSheet = ActiveSheet
+    On Error GoTo ErrHandler
+
+    Application.ScreenUpdating = False
+
+    For Each ws In wb.Worksheets
+        wsName = ws.Name
+        If Len(wsName) > 0 Then
+            If Left(wsName, 1) = "_" Or Right(wsName, 1) = "_" Then
+                ' Skip worksheets starting/ending with underscore
+            Else
+                ws.Activate
+                On Error Resume Next
+                curZoom = ActiveWindow.Zoom
+                If curZoom <= 0 Then curZoom = 100
+                newZoom = curZoom + delta
+                If newZoom < 10 Then newZoom = 10
+                If newZoom > 400 Then newZoom = 400
+                ActiveWindow.Zoom = newZoom
+                On Error GoTo ErrHandler
+            End If
+        End If
+    Next ws
+
+    If Not curSheet Is Nothing Then curSheet.Activate
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrHandler:
+    Application.ScreenUpdating = True
+    MsgBox "Error setting zoom: " & Err.Description, vbExclamation
+End Sub
+
+Public Sub ZoomActiveSheetBy(delta As Long)
+    Dim curZoom As Long
+    Dim newZoom As Long
+
+    If Application.Workbooks.Count = 0 Then
+        MsgBox "No open workbooks.", vbExclamation
+        Exit Sub
+    End If
+
+    On Error GoTo ErrHandler
+    Application.ScreenUpdating = False
+    On Error Resume Next
+    curZoom = ActiveWindow.Zoom
+    If curZoom <= 0 Then curZoom = 100
+    newZoom = curZoom + delta
+    If newZoom < 10 Then newZoom = 10
+    If newZoom > 400 Then newZoom = 400
+    ActiveWindow.Zoom = newZoom
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrHandler:
+    Application.ScreenUpdating = True
+    MsgBox "Error setting zoom: " & Err.Description, vbExclamation
+End Sub

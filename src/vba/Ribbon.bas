@@ -5,11 +5,13 @@ Private mRibbonUI As Object
 Private mRibbonFontSelectedIndex As Long
 Private mRibbonFontSize As Long
 Private mRibbonApplyAllSheets As Boolean
+Private mRibbonZoomApplyAllSheets As Boolean
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
     mRibbonFontSize = 11
     mRibbonApplyAllSheets = False
+    mRibbonZoomApplyAllSheets = False
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
@@ -68,11 +70,47 @@ Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
 End Sub
 
 Public Sub RibbonZoom100_OnAction(ByVal control As Object)
-    ZoomAllSheets100
+    If mRibbonZoomApplyAllSheets Then
+        ZoomAllSheets100
+    Else
+        On Error Resume Next
+        ActiveWindow.Zoom = 100
+        On Error GoTo 0
+    End If
 End Sub
 
 Public Sub RibbonResizePicture_OnAction(ByVal control As Object)
     ResizeAllPicturesToPercent RESIZE_PERCENT
+End Sub
+
+Public Sub RibbonZoomUp_OnAction(ByVal control As Object)
+    If mRibbonZoomApplyAllSheets Then
+        ZoomAllSheetsBy 10
+    Else
+        ZoomActiveSheetBy 10
+    End If
+End Sub
+
+Public Sub RibbonZoomDown_OnAction(ByVal control As Object)
+    If mRibbonZoomApplyAllSheets Then
+        ZoomAllSheetsBy -10
+    Else
+        ZoomActiveSheetBy -10
+    End If
+End Sub
+
+Public Sub RibbonZoomAllSheets_GetPressed(ByVal control As Object, ByRef returnedPressed)
+    returnedPressed = mRibbonZoomApplyAllSheets
+End Sub
+
+Public Sub RibbonZoomAllSheets_OnAction(ByVal control As Object, ByVal pressed As Boolean)
+    mRibbonZoomApplyAllSheets = pressed
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.Invalidate
+        On Error GoTo 0
+    End If
+    Application.StatusBar = "Zoom Apply to All Sheets: " & IIf(mRibbonZoomApplyAllSheets, "Yes", "No")
 End Sub
 
 

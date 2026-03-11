@@ -45,12 +45,29 @@ function Get-CustomUiXml {
                 </group>
 
                 <group id="grpZoom" label="Zoom">
+                    <button id="btnZoomUp"
+                        label="Zoom +"
+                        imageMso="ZoomIn"
+                        size="large"
+                        onAction="RibbonZoomUp_OnAction"
+                        screentip="Increase zoom by 10%" />
                     <button id="btnZoom100"
                         label="Zoom 100%"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets" />
+                        screentip="Set zoom to 100%" />
+                    <button id="btnZoomDown"
+                        label="Zoom -"
+                        imageMso="ZoomOut"
+                        size="large"
+                        onAction="RibbonZoomDown_OnAction"
+                        screentip="Decrease zoom by 10%" />
+                    <checkBox id="chkZoomAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonZoomAllSheets_GetPressed"
+                              onAction="RibbonZoomAllSheets_OnAction"
+                              screentip="Apply zoom changes to all sheets when checked" />
                 </group>
 
                 <group id="grpResize" label="Picture">
@@ -102,12 +119,29 @@ function Get-CustomUi14Xml {
                               screentip="Apply to all sheets when checked" />
                 </group>
                 <group id="grpZoom" label="Zoom">
+                    <button id="btnZoomUp"
+                        label="Zoom +"
+                        imageMso="ZoomIn"
+                        size="large"
+                        onAction="RibbonZoomUp_OnAction"
+                        screentip="Increase zoom by 10%" />
                     <button id="btnZoom100"
                         label="Zoom 100%"
                         imageMso="Zoom100"
                         size="large"
                         onAction="RibbonZoom100_OnAction"
-                        screentip="Set zoom to 100% on all worksheets" />
+                        screentip="Set zoom to 100%" />
+                    <button id="btnZoomDown"
+                        label="Zoom -"
+                        imageMso="ZoomOut"
+                        size="large"
+                        onAction="RibbonZoomDown_OnAction"
+                        screentip="Decrease zoom by 10%" />
+                    <checkBox id="chkZoomAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonZoomAllSheets_GetPressed"
+                              onAction="RibbonZoomAllSheets_OnAction"
+                              screentip="Apply zoom changes to all sheets when checked" />
                 </group>
                 <group id="grpResize" label="Picture">
                     <button id="btnResizePicture"
