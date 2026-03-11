@@ -1,6 +1,16 @@
 Attribute VB_Name = "Ribbon"
 Option Explicit
 
+Private mRibbonTestInputText As String
+
+Public Sub RibbonTestInput_OnChange(ByVal control As Object, ByVal text As String)
+    mRibbonTestInputText = text
+End Sub
+
+Public Sub RibbonTestInput_GetText(ByVal control As Object, ByRef returnedVal)
+    returnedVal = mRibbonTestInputText
+End Sub
+
 Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
     PromptAndApplyFont
 End Sub

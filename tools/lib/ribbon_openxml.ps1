@@ -18,6 +18,13 @@ function Get-CustomUiXml {
         <tabs>
                         <tab id="tabBysioTools" label="Bysio Tools">
                                 <group id="grpFormatting" label="Formatting">
+                        <editBox id="txtRibbonTestInput"
+                                        label="Test Input"
+                                        onChange="RibbonTestInput_OnChange"
+                                        getText="RibbonTestInput_GetText"
+                                        sizeString="WWWWWWWWWWWW"
+                                        screentip="Type test text"
+                                        supertip="Temporary ribbon input box used to verify that an input text control can be hosted in the custom ribbon." />
                                         <button id="btnApplyFont"
                                                                         label="Apply Font"
                                                                         imageMso="FontDialog"
