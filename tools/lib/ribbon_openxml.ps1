@@ -14,7 +14,7 @@ function Get-CustomUiXml {
     <ribbon>
         <tabs>
                 <tab id="tabBysioTools" label="Bysio Tools">
-                <group id="grpFont" label="Font">
+                <group id="grpFontPicker" label="Font">
                     <dropDown id="ddlRibbonFont"
                               label="Font"
                               getSelectedItemIndex="RibbonFont_GetSelectedItemIndex"
@@ -23,7 +23,9 @@ function Get-CustomUiXml {
                         <item id="font_msgothic" label="ＭＳ ゴシック" />
                         <item id="font_meiryo" label="Meiryo UI" />
                     </dropDown>
+                </group>
 
+                <group id="grpApplyFont" label="Apply">
                     <button id="btnApplyFont"
                         label="Apply Font to Sheet"
                         imageMso="FontDialog"
