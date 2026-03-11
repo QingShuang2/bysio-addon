@@ -4,10 +4,12 @@ Option Explicit
 Private mRibbonUI As Object
 Private mRibbonFontSelectedIndex As Long
 Private mRibbonFontSize As Long
+Private mRibbonApplyAllSheets As Boolean
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
     mRibbonFontSize = 11
+    mRibbonApplyAllSheets = False
     Application.StatusBar = "Bysio ribbon loaded."
 End Sub
 
@@ -56,8 +58,13 @@ Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
             Exit Sub
     End Select
 
-    SetActiveSheetFont fontName, fontSize
-    MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to active sheet '" & ActiveSheet.Name & "' in " & ActiveWorkbook.Name, vbInformation
+    If mRibbonApplyAllSheets Then
+        SetAllSheetsFont fontName, fontSize
+        MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to all sheets in " & ActiveWorkbook.Name, vbInformation
+    Else
+        SetActiveSheetFont fontName, fontSize
+        MsgBox "Applied font '" & fontName & "' size " & CStr(fontSize) & " to active sheet '" & ActiveSheet.Name & "' in " & ActiveWorkbook.Name, vbInformation
+    End If
 End Sub
 
 Public Sub RibbonZoom100_OnAction(ByVal control As Object)
@@ -81,6 +88,20 @@ Public Sub RibbonSize_OnChange(ByVal control As Object, ByVal text As String)
     Else
         MsgBox "Invalid font size: " & text, vbExclamation
     End If
+End Sub
+
+Public Sub RibbonAllSheets_GetPressed(ByVal control As Object, ByRef returnedPressed)
+    returnedPressed = mRibbonApplyAllSheets
+End Sub
+
+Public Sub RibbonAllSheets_OnAction(ByVal control As Object, ByVal pressed As Boolean)
+    mRibbonApplyAllSheets = pressed
+    If Not mRibbonUI Is Nothing Then
+        On Error Resume Next
+        mRibbonUI.Invalidate
+        On Error GoTo 0
+    End If
+    Application.StatusBar = "Apply to All Sheets: " & IIf(mRibbonApplyAllSheets, "Yes", "No")
 End Sub
 
 

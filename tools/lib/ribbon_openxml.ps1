@@ -28,6 +28,11 @@ function Get-CustomUiXml {
                              getText="RibbonSize_GetText"
                              onChange="RibbonSize_OnChange"
                              screentip="Font size (default 11)" />
+                    <checkBox id="chkRibbonAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonAllSheets_GetPressed"
+                              onAction="RibbonAllSheets_OnAction"
+                              screentip="Apply to all sheets when checked" />
                 </group>
 
                 <group id="grpApplyFont" label="Apply">
@@ -90,6 +95,11 @@ function Get-CustomUi14Xml {
                              getText="RibbonSize_GetText"
                              onChange="RibbonSize_OnChange"
                              screentip="Font size (default 11)" />
+                    <checkBox id="chkRibbonAllSheets"
+                              label="All Sheets?"
+                              getPressed="RibbonAllSheets_GetPressed"
+                              onAction="RibbonAllSheets_OnAction"
+                              screentip="Apply to all sheets when checked" />
                 </group>
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
