@@ -16,11 +16,10 @@ function Get-CustomUiXml {
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
                     <editBox id="txtRibbonTestInput"
-                         label="Test Input"
-                         getText="RibbonTestInput_GetText"
-                         onChange="RibbonTestInput_OnChange"
-                         size="regular"
-                         screentip="Temporary input for testing" />
+                             label="Test Input"
+                             getText="RibbonTestInput_GetText"
+                             onChange="RibbonTestInput_OnChange"
+                             screentip="Temporary input for testing" />
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
@@ -68,11 +67,10 @@ function Get-CustomUi14Xml {
                 <tab id="tabBysioTools" label="Bysio Tools">
                 <group id="grpFormatting" label="Formatting">
                     <editBox id="txtRibbonTestInput"
-                         label="Test Input"
-                         getText="RibbonTestInput_GetText"
-                         onChange="RibbonTestInput_OnChange"
-                         size="regular"
-                         screentip="Temporary input for testing" />
+                             label="Test Input"
+                             getText="RibbonTestInput_GetText"
+                             onChange="RibbonTestInput_OnChange"
+                             screentip="Temporary input for testing" />
 
                     <button id="btnApplyFont"
                         label="Apply Font to All Sheets"
