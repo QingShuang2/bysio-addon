@@ -161,7 +161,6 @@ function Get-CustomUi14Xml {
                 <group id="grpResize" label="Picture">
                     <button id="btnResizeUp"
                         label="Resize +"
-                        imageMso="GrowFont"
                         size="large"
                         onAction="RibbonResizeUp_OnAction"
                         screentip="Increase picture size by 10%" />
@@ -173,7 +172,6 @@ function Get-CustomUi14Xml {
                         screentip="Resize pictures to configured percent" />
                     <button id="btnResizeDown"
                         label="Resize -"
-                        imageMso="ShrinkFont"
                         size="large"
                         onAction="RibbonResizeDown_OnAction"
                         screentip="Decrease picture size by 10%" />
