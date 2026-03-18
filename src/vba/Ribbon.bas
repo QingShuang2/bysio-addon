@@ -40,7 +40,7 @@ Public Sub RibbonFont_OnAction(ByVal control As Object, ByVal id As String, ByVa
     End If
     Dim fontName As String
     Select Case index
-        Case 0: fontName = "ＭＳ ゴシック"
+        Case 0: fontName = "MS Gothic"
         Case 1: fontName = "Meiryo UI"
         Case Else: fontName = ""
     End Select
@@ -62,7 +62,7 @@ Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
 
     Select Case mRibbonFontSelectedIndex
         Case 0
-            fontName = "ＭＳ ゴシック"
+            fontName = "MS Gothic"
             fontSize = mRibbonFontSize
         Case 1
             fontName = "Meiryo UI"
