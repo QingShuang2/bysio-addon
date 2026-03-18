@@ -18,7 +18,7 @@ End Sub
 
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
-    mRibbonFontSize = 11
+    mRibbonFontSize = 9
     mRibbonApplyAllSheets = False
     mRibbonZoomApplyAllSheets = False
     mRibbonResizeApplyAllSheets = False

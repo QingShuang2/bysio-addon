@@ -27,7 +27,7 @@ function Get-CustomUiXml {
                              label="Size"
                              getText="RibbonSize_GetText"
                              onChange="RibbonSize_OnChange"
-                             screentip="Font size (default 11)" />
+                             screentip="Font size (default 9)" />
                     <checkBox id="chkRibbonAllSheets"
                               label="All Sheets?"
                               getPressed="RibbonAllSheets_GetPressed"
@@ -141,7 +141,7 @@ function Get-CustomUi14Xml {
                              label="Size"
                              getText="RibbonSize_GetText"
                              onChange="RibbonSize_OnChange"
-                             screentip="Font size (default 11)" />
+                             screentip="Font size (default 9)" />
                 </group>
                 <group id="grpZoom" label="Zoom">
                     <button id="btnZoom100"
