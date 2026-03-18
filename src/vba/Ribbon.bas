@@ -10,6 +10,12 @@ Private mRibbonResizeApplyAllSheets As Boolean
 Private mRibbonZoomPercent As Long
 Private mRibbonResizePercent As Double
 
+Private Sub SafeStatusBar(ByVal msg As Variant)
+    On Error Resume Next
+    Application.StatusBar = msg
+    On Error GoTo 0
+End Sub
+
 Public Sub RibbonOnLoad(ByVal ribbon As Object)
     Set mRibbonUI = ribbon
     mRibbonFontSize = 11
@@ -18,7 +24,7 @@ Public Sub RibbonOnLoad(ByVal ribbon As Object)
     mRibbonResizeApplyAllSheets = False
     mRibbonZoomPercent = 100
     mRibbonResizePercent = RESIZE_PERCENT
-    Application.StatusBar = "Bysio ribbon loaded."
+    SafeStatusBar "Bysio ribbon loaded."
 End Sub
 
 Public Sub RibbonFont_GetSelectedItemIndex(ByVal control As Object, ByRef returnedIndex)
@@ -38,7 +44,7 @@ Public Sub RibbonFont_OnAction(ByVal control As Object, ByVal id As String, ByVa
         Case 1: fontName = "Meiryo UI"
         Case Else: fontName = ""
     End Select
-    Application.StatusBar = "Selected font: " & fontName
+    SafeStatusBar "Selected font: " & fontName
 End Sub
 
 Public Sub RibbonCustomTabTest_OnAction(ByVal control As Object)
@@ -47,7 +53,7 @@ Public Sub RibbonCustomTabTest_OnAction(ByVal control As Object)
         mRibbonUI.Invalidate
         On Error GoTo 0
     End If
-    Application.StatusBar = "Bysio custom ribbon tab loaded."
+    SafeStatusBar "Bysio custom ribbon tab loaded."
 End Sub
 
 Public Sub RibbonApplyFont_OnAction(ByVal control As Object)
@@ -149,7 +155,7 @@ Public Sub RibbonZoomAllSheets_OnAction(ByVal control As Object, ByVal pressed A
         mRibbonUI.Invalidate
         On Error GoTo 0
     End If
-    Application.StatusBar = "Zoom Apply to All Sheets: " & IIf(mRibbonZoomApplyAllSheets, "Yes", "No")
+    SafeStatusBar "Zoom Apply to All Sheets: " & IIf(mRibbonZoomApplyAllSheets, "Yes", "No")
 End Sub
 
 Public Sub RibbonResizeUp_OnAction(ByVal control As Object)
@@ -215,7 +221,7 @@ Public Sub RibbonResizeAllSheets_OnAction(ByVal control As Object, ByVal pressed
         mRibbonUI.Invalidate
         On Error GoTo 0
     End If
-    Application.StatusBar = "Resize Apply to All Sheets: " & IIf(mRibbonResizeApplyAllSheets, "Yes", "No")
+    SafeStatusBar "Resize Apply to All Sheets: " & IIf(mRibbonResizeApplyAllSheets, "Yes", "No")
 End Sub
 
 
@@ -227,7 +233,7 @@ Public Sub RibbonSize_OnChange(ByVal control As Object, ByVal text As String)
     If Len(Trim$(text)) = 0 Then Exit Sub
     If IsNumeric(text) Then
         mRibbonFontSize = CLng(text)
-        Application.StatusBar = "Selected font size: " & CStr(mRibbonFontSize)
+        SafeStatusBar "Selected font size: " & CStr(mRibbonFontSize)
     Else
         MsgBox "Invalid font size: " & text, vbExclamation
     End If
@@ -244,7 +250,7 @@ Public Sub RibbonAllSheets_OnAction(ByVal control As Object, ByVal pressed As Bo
         mRibbonUI.Invalidate
         On Error GoTo 0
     End If
-    Application.StatusBar = "Apply to All Sheets: " & IIf(mRibbonApplyAllSheets, "Yes", "No")
+    SafeStatusBar "Apply to All Sheets: " & IIf(mRibbonApplyAllSheets, "Yes", "No")
 End Sub
 
 
@@ -272,7 +278,7 @@ Public Sub RibbonZoomPercent_OnChange(ByVal control As Object, ByVal text As Str
             mRibbonUI.Invalidate
             On Error GoTo 0
         End If
-        Application.StatusBar = "Zoom set to " & CStr(mRibbonZoomPercent) & "%"
+        SafeStatusBar "Zoom set to " & CStr(mRibbonZoomPercent) & "%"
     Else
         MsgBox "Invalid zoom percent: " & text, vbExclamation
     End If
@@ -307,7 +313,7 @@ Public Sub RibbonResizePercent_OnChange(ByVal control As Object, ByVal text As S
             mRibbonUI.Invalidate
             On Error GoTo 0
         End If
-        Application.StatusBar = "Resize percent set to " & CStr(mRibbonResizePercent) & "%"
+        SafeStatusBar "Resize percent set to " & CStr(mRibbonResizePercent) & "%"
     Else
         MsgBox "Invalid percent: " & text, vbExclamation
     End If
