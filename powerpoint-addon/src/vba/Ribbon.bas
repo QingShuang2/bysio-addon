@@ -55,17 +55,45 @@ Public Sub RibbonScale_OnChange(ByVal control As Object, ByVal text As String)
     If v > 0 Then mScale = v
 End Sub
 
+Private Function IsPictureShape(ByVal shp As Object) As Boolean
+    On Error GoTo NotPicture
+    IsPictureShape = (shp.Type = msoPicture Or shp.Type = msoLinkedPicture)
+    Exit Function
+NotPicture:
+    IsPictureShape = False
+End Function
+
+Private Function GetOnlyPictureInSlide(ByVal sld As Object) As Object
+    Dim shp As Object
+    Dim pic As Object
+    Dim picCount As Long
+
+    For Each shp In sld.Shapes
+        If IsPictureShape(shp) Then
+            picCount = picCount + 1
+            Set pic = shp
+            If picCount > 1 Then Exit For
+        End If
+    Next shp
+
+    If picCount = 1 Then
+        Set GetOnlyPictureInSlide = pic
+    End If
+End Function
+
+Private Sub ResizeAndPositionShape(ByVal shp As Object, ByVal targetH As Double, ByVal targetW As Double)
+    shp.LockAspectRatio = msoFalse
+    shp.Height = targetH
+    shp.Width = targetW
+    shp.Left = mHorizontal * 72
+    shp.Top = mVertical * 72
+End Sub
+
 Public Sub RibbonResizeImage_OnAction(ByVal control As Object)
     If mScale = 0 Then InitDefaults
 
     Dim sel As Object
     Set sel = Application.ActiveWindow.Selection
-
-    ' ppSelectionShapes = 2
-    If sel.Type <> 2 Then
-        MsgBox "Please select an image first.", vbExclamation, "Bysio"
-        Exit Sub
-    End If
 
     ' Scale is based on slide dimensions. All positions are in inches.
     ' 1 inch = 72 points in Office.
@@ -75,11 +103,45 @@ Public Sub RibbonResizeImage_OnAction(ByVal control As Object)
     targetW = SLIDE_W * (mScale / 100) * 72
 
     Dim shp As Object
-    For Each shp In sel.ShapeRange
-        shp.LockAspectRatio = msoFalse
-        shp.Height = targetH
-        shp.Width = targetW
-        shp.Left = mHorizontal * 72
-        shp.Top = mVertical * 72
-    Next shp
+    Dim sld As Object
+    Dim onePic As Object
+    Dim appliedCount As Long
+    Dim skippedCount As Long
+
+    ' ppSelectionShapes = 2
+    If sel.Type = 2 Then
+        For Each shp In sel.ShapeRange
+            If IsPictureShape(shp) Then
+                ResizeAndPositionShape shp, targetH, targetW
+                appliedCount = appliedCount + 1
+            End If
+        Next shp
+
+        If appliedCount = 0 Then
+            MsgBox "Please select at least one image.", vbExclamation, "Bysio"
+        End If
+        Exit Sub
+    End If
+
+    ' ppSelectionSlides = 1
+    If sel.Type = 1 Then
+        For Each sld In sel.SlideRange
+            Set onePic = GetOnlyPictureInSlide(sld)
+            If onePic Is Nothing Then
+                skippedCount = skippedCount + 1
+            Else
+                ResizeAndPositionShape onePic, targetH, targetW
+                appliedCount = appliedCount + 1
+            End If
+        Next sld
+
+        If appliedCount = 0 Then
+            MsgBox "No selected slide contains exactly one image.", vbExclamation, "Bysio"
+        ElseIf skippedCount > 0 Then
+            MsgBox "Updated " & CStr(appliedCount) & " slide(s). Skipped " & CStr(skippedCount) & " slide(s) without exactly one image.", vbInformation, "Bysio"
+        End If
+        Exit Sub
+    End If
+
+    MsgBox "Please select image(s), or select slide(s) that each contain exactly one image.", vbExclamation, "Bysio"
 End Sub
