@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 <#
-Builds a PowerPoint add-in from exported VBA modules and runs tests.
+Builds a PowerPoint add-in from exported VBA modules.
 Requirements:
 - Windows with PowerPoint installed
 - PowerPoint Trust Center: "Trust access to the VBA project object model" enabled
@@ -12,7 +12,7 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $libDir = Join-Path $scriptDir 'lib'
 
 . (Join-Path $libDir 'powerpoint_build.ps1')
-. (Join-Path $libDir 'addin_tests.ps1')
+. (Join-Path $libDir 'ribbon_openxml.ps1')
 
 $projectRoot = Split-Path -Parent $scriptDir
 $vbaDir = Join-Path $projectRoot 'src\vba'
@@ -44,11 +44,13 @@ try {
         $sourcePresentation.Close()
     }
 
-    $resultsText = Invoke-AddInTests -PowerPoint $ppt -AddInPath $addInPath
-    $resultsFile = Join-Path $dist 'test-results.txt'
-    Set-Content -Path $resultsFile -Value $resultsText -Encoding UTF8
+    Write-Host 'Embedding custom ribbon UI into add-in package...'
+    Add-CustomRibbonToAddIn -PpamPath $addInPath
 
-    Write-Host "Build and tests complete. Results at $resultsFile"
+    Write-Host 'Loading the built add-in into PowerPoint...'
+    Load-AddInIntoPowerPoint -PowerPoint $ppt -AddInPath $addInPath
+
+    Write-Host "Build complete. Add-in output: $addInPath"
 }
 finally {
     if ($tempPptmPath -and (Test-Path $tempPptmPath)) {

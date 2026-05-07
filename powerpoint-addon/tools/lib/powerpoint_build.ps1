@@ -78,3 +78,30 @@ function Save-PresentationAsAddIn {
         return $fallbackPath
     }
 }
+
+function Load-AddInIntoPowerPoint {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$PowerPoint,
+        [Parameter(Mandatory = $true)]
+        [string]$AddInPath
+    )
+
+    $resolvedPath = [System.IO.Path]::GetFullPath($AddInPath)
+
+    # Unload duplicate entries to avoid stale builds remaining active.
+    foreach ($item in @($PowerPoint.AddIns)) {
+        try {
+            $itemPath = [System.IO.Path]::GetFullPath([string]$item.FullName)
+            if ($itemPath -ieq $resolvedPath) {
+                $item.Loaded = $false
+            }
+        }
+        catch {
+            # Ignore entries that cannot be inspected.
+        }
+    }
+
+    $addIn = $PowerPoint.AddIns.Add($resolvedPath)
+    $addIn.Loaded = $true
+}
