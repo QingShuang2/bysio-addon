@@ -2,11 +2,9 @@ $RibbonSettings = @{
     CustomUiPartPath           = 'customUI/customUI.xml'
     CustomUi14PartPath         = 'customUI/customUI14.xml'
     PackageRelsPath            = '_rels/.rels'
-    DocumentRelsPath           = 'ppt/_rels/presentation.xml.rels'
     ContentTypesPath           = '[Content_Types].xml'
     CustomUiRelationshipType   = 'http://schemas.microsoft.com/office/2006/relationships/ui/extensibility'
     CustomUi14RelationshipType = 'http://schemas.microsoft.com/office/2007/relationships/ui/extensibility'
-    CustomUiContentType        = 'application/vnd.ms-office.customUI+xml'
 }
 
 function Get-CustomUiXml {
@@ -98,7 +96,7 @@ function Set-ZipEntryText {
     }
 }
 
-function Set-DocumentRelationship {
+function Set-PackageRelationship {
     param(
         [Parameter(Mandatory = $true)]
         [xml]$RelationshipsXml,
@@ -131,14 +129,12 @@ function Set-DocumentRelationship {
     [void]$RelationshipsXml.DocumentElement.AppendChild($newRel)
 }
 
-function Set-ContentTypeOverride {
+function Remove-ContentTypeOverride {
     param(
         [Parameter(Mandatory = $true)]
         [xml]$TypesXml,
         [Parameter(Mandatory = $true)]
-        [string]$PartPath,
-        [Parameter(Mandatory = $true)]
-        [string]$ContentType
+        [string]$PartPath
     )
 
     $typesNs = [System.Xml.XmlNamespaceManager]::new($TypesXml.NameTable)
@@ -148,11 +144,6 @@ function Set-ContentTypeOverride {
     if ($existing) {
         [void]$existing.ParentNode.RemoveChild($existing)
     }
-
-    $override = $TypesXml.CreateElement('Override', $TypesXml.DocumentElement.NamespaceURI)
-    [void]$override.SetAttribute('PartName', "/$PartPath")
-    [void]$override.SetAttribute('ContentType', $ContentType)
-    [void]$TypesXml.DocumentElement.AppendChild($override)
 }
 
 function Update-RibbonRelationships {
@@ -161,24 +152,15 @@ function Update-RibbonRelationships {
         [System.IO.Compression.ZipArchive]$Zip
     )
 
-    $relsText = Get-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.DocumentRelsPath
-    if (-not $relsText) {
-        throw "Missing document relationships entry: $($RibbonSettings.DocumentRelsPath)"
-    }
-
-    [xml]$relsXml = $relsText
-    Set-DocumentRelationship -RelationshipsXml $relsXml -RelationshipType $RibbonSettings.CustomUiRelationshipType -Target '../customUI/customUI.xml'
-    Set-DocumentRelationship -RelationshipsXml $relsXml -RelationshipType $RibbonSettings.CustomUi14RelationshipType -Target '../customUI/customUI14.xml'
-    Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.DocumentRelsPath -Content $relsXml.OuterXml
-
-    # Some hosts and tooling still inspect package-level relationships for customUI parts.
     $packageRelsText = Get-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.PackageRelsPath
-    if ($packageRelsText) {
-        [xml]$packageRelsXml = $packageRelsText
-        Set-DocumentRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUiRelationshipType -Target $RibbonSettings.CustomUiPartPath
-        Set-DocumentRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUi14RelationshipType -Target $RibbonSettings.CustomUi14PartPath
-        Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.PackageRelsPath -Content $packageRelsXml.OuterXml
+    if (-not $packageRelsText) {
+        throw "Missing package relationships entry: $($RibbonSettings.PackageRelsPath)"
     }
+
+    [xml]$packageRelsXml = $packageRelsText
+    Set-PackageRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUiRelationshipType -Target $RibbonSettings.CustomUiPartPath
+    Set-PackageRelationship -RelationshipsXml $packageRelsXml -RelationshipType $RibbonSettings.CustomUi14RelationshipType -Target $RibbonSettings.CustomUi14PartPath
+    Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.PackageRelsPath -Content $packageRelsXml.OuterXml
 }
 
 function Update-ContentTypes {
@@ -193,8 +175,8 @@ function Update-ContentTypes {
     }
 
     [xml]$typesXml = $typesText
-    Set-ContentTypeOverride -TypesXml $typesXml -PartPath $RibbonSettings.CustomUiPartPath -ContentType $RibbonSettings.CustomUiContentType
-    Set-ContentTypeOverride -TypesXml $typesXml -PartPath $RibbonSettings.CustomUi14PartPath -ContentType $RibbonSettings.CustomUiContentType
+    Remove-ContentTypeOverride -TypesXml $typesXml -PartPath $RibbonSettings.CustomUiPartPath
+    Remove-ContentTypeOverride -TypesXml $typesXml -PartPath $RibbonSettings.CustomUi14PartPath
     Set-ZipEntryText -Zip $Zip -EntryPath $RibbonSettings.ContentTypesPath -Content $typesXml.OuterXml
 }
 
