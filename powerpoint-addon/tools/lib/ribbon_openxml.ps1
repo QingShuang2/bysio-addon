@@ -14,12 +14,27 @@ function Get-CustomUiXml {
     <ribbon>
         <tabs>
             <tab id="tabBysioPpt" label="Bysio">
-                <group id="grpMath" label="Math">
-                    <button id="btnOnePlusOne"
-                            label="1 + 1"
+                <group id="grpResize" label="Resize Image">
+                    <button id="btnResizeImage"
+                            label="Resize Image"
                             size="large"
-                            onAction="RibbonOnePlusOne_OnAction"
-                            screentip="Show 1+1 result" />
+                            onAction="RibbonResizeImage_OnAction"
+                            screentip="Resize selected image to specified dimensions" />
+                    <editBox id="txtScale"
+                             label="Scale %"
+                             getText="RibbonScale_GetText"
+                             onChange="RibbonScale_OnChange"
+                             screentip="Resize based on 5.85in x 9.1in slide size (default 64)" />
+                    <editBox id="txtHorizontal"
+                             label="Horizontal (in)"
+                             getText="RibbonHorizontal_GetText"
+                             onChange="RibbonHorizontal_OnChange"
+                             screentip="Left position in inches from slide left edge" />
+                    <editBox id="txtVertical"
+                             label="Vertical (in)"
+                             getText="RibbonVertical_GetText"
+                             onChange="RibbonVertical_OnChange"
+                             screentip="Top position in inches from slide top edge" />
                 </group>
             </tab>
         </tabs>
@@ -35,12 +50,27 @@ function Get-CustomUi14Xml {
     <ribbon>
         <tabs>
             <tab id="tabBysioPpt" label="Bysio">
-                <group id="grpMath" label="Math">
-                    <button id="btnOnePlusOne"
-                            label="1 + 1"
+                <group id="grpResize" label="Resize Image">
+                    <button id="btnResizeImage"
+                            label="Resize Image"
                             size="large"
-                            onAction="RibbonOnePlusOne_OnAction"
-                            screentip="Show 1+1 result" />
+                            onAction="RibbonResizeImage_OnAction"
+                            screentip="Resize selected image to specified dimensions" />
+                    <editBox id="txtScale"
+                             label="Scale %"
+                             getText="RibbonScale_GetText"
+                             onChange="RibbonScale_OnChange"
+                             screentip="Resize based on 5.85in x 9.1in slide size (default 64)" />
+                    <editBox id="txtHorizontal"
+                             label="Horizontal (in)"
+                             getText="RibbonHorizontal_GetText"
+                             onChange="RibbonHorizontal_OnChange"
+                             screentip="Left position in inches from slide left edge" />
+                    <editBox id="txtVertical"
+                             label="Vertical (in)"
+                             getText="RibbonVertical_GetText"
+                             onChange="RibbonVertical_OnChange"
+                             screentip="Top position in inches from slide top edge" />
                 </group>
             </tab>
         </tabs>
