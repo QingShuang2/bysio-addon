@@ -67,14 +67,17 @@ function Save-PresentationAsAddIn {
     $addInPath = Join-Path $DistDirectory ($buildName + '.ppam')
     Write-Host "Saving add-in to: $addInPath"
 
+    # ppSaveAsOpenXMLAddin
+    $ppSaveAsOpenXMLAddin = 30
+
     try {
-        $Presentation.SaveAs($addInPath) | Out-Null
+        $Presentation.SaveAs($addInPath, $ppSaveAsOpenXMLAddin) | Out-Null
         return $addInPath
     }
     catch {
         $fallbackPath = Join-Path $DistDirectory ($buildName + '-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.ppam')
         Write-Host "Primary add-in file is locked. Saving to fallback path: $fallbackPath"
-        $Presentation.SaveAs($fallbackPath) | Out-Null
+        $Presentation.SaveAs($fallbackPath, $ppSaveAsOpenXMLAddin) | Out-Null
         return $fallbackPath
     }
 }
@@ -88,13 +91,20 @@ function Load-AddInIntoPowerPoint {
     )
 
     $resolvedPath = [System.IO.Path]::GetFullPath($AddInPath)
+    $addInName = [System.IO.Path]::GetFileNameWithoutExtension($resolvedPath)
+    $baseAddInName = ($addInName -replace '-\d{8}-\d{6}$', '')
 
     # Unload duplicate entries to avoid stale builds remaining active.
     foreach ($item in @($PowerPoint.AddIns)) {
         try {
+            $itemName = [string]$item.Name
             $itemPath = [System.IO.Path]::GetFullPath([string]$item.FullName)
-            if ($itemPath -ieq $resolvedPath) {
+            $isCurrentPath = $itemPath -ieq $resolvedPath
+            $isCurrentName = $itemName -ieq $addInName
+            $isSameFamily = $itemName -ieq $baseAddInName -or $itemName -like ($baseAddInName + '-*')
+            if ($isCurrentPath -or $isCurrentName -or $isSameFamily) {
                 $item.Loaded = $false
+                $item.AutoLoad = $false
             }
         }
         catch {
@@ -103,5 +113,7 @@ function Load-AddInIntoPowerPoint {
     }
 
     $addIn = $PowerPoint.AddIns.Add($resolvedPath)
+    $addIn.Registered = $true
+    $addIn.AutoLoad = $true
     $addIn.Loaded = $true
 }
