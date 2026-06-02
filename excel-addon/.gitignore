@@ -27,7 +27,7 @@ OfficeAddins.log.txt
 *.xla
 
 # Environment
-.env
+#.env
 
 # npm
 npm-debug.log*
